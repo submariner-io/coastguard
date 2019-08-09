@@ -6,6 +6,7 @@ import (
 	"k8s.io/klog"
 
 	"github.com/submariner-io/coastguard/pkg/healthz"
+	"github.com/submariner-io/coastguard/pkg/networkpolicy"
 	"github.com/submariner-io/coastguard/pkg/remotecluster"
 )
 
@@ -27,15 +28,20 @@ type CoastguardController struct {
 	// objects inside the controller, it's a generalistic lock, although
 	// later in time we can come up with a more granular implementation.
 	processingMutex *sync.Mutex
+
+	remoteNetworkPolicies map[string]*networkpolicy.RemoteNetworkPolicy
+	remotePods            map[string]*networkpolicy.RemotePod
 }
 
 func New() *CoastguardController {
 
 	return &CoastguardController{
-		remoteClusters:  make(map[string]*remotecluster.RemoteCluster),
-		syncedClusters:  make(map[string]*remotecluster.RemoteCluster),
-		processingMutex: &sync.Mutex{},
-		clusterEvents:   make(chan *remotecluster.Event, eventChannelSize),
+		remoteClusters:        make(map[string]*remotecluster.RemoteCluster),
+		syncedClusters:        make(map[string]*remotecluster.RemoteCluster),
+		processingMutex:       &sync.Mutex{},
+		clusterEvents:         make(chan *remotecluster.Event, eventChannelSize),
+		remoteNetworkPolicies: make(map[string]*networkpolicy.RemoteNetworkPolicy),
+		remotePods:            make(map[string]*networkpolicy.RemotePod),
 	}
 }
 

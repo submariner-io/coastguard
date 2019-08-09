@@ -22,6 +22,7 @@ func (c *CoastguardController) OnAdd(clusterID string, kubeConfig *rest.Config) 
 
 func (c *CoastguardController) addCluster(clusterID string, clientSet kubernetes.Interface) {
 	rc := remotecluster.New(clusterID, clientSet)
+	rc.SetEventChannel(c.clusterEvents)
 	c.processingMutex.Lock()
 	c.remoteClusters[clusterID] = rc
 	c.processingMutex.Unlock()
