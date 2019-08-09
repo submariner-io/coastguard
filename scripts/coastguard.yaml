@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coastguard
+  namespace: kube-federation-system
+  labels:
+    app: coastguard
+spec:
+  selector:
+    matchLabels:
+      app: coastguard
+  template:
+    metadata:
+      labels:
+        app: coastguard
+    spec:
+      containers:
+      - name: coastguard
+        image: coastguard:latest
