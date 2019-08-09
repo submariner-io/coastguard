@@ -8,4 +8,7 @@ require (
 	github.com/submariner-io/submariner v0.0.0-20190708095718-350482d85dd4
 )
 
-replace github.com/bronze1man/goStrongswanVici => github.com/mangelajo/goStrongswanVici v0.0.0-20190223031456-9a5ae4453bd
+replace (
+    github.com/bronze1man/goStrongswanVici => github.com/mangelajo/goStrongswanVici v0.0.0-20190223031456-9a5ae4453bd
+	github.com/submariner-io/admiral => github.com/tpantelis/admiral v0.0.0-0.20190715192543-1ada6524e26
+)
