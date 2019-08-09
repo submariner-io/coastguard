@@ -16,6 +16,9 @@ ifneq ($(status),clean)
 	./.dapper -m bind e2e $(status)
 endif
 
+e2e-coastguard: .dapper
+	./.dapper -m bind e2e keep
+
 ifneq ($(status),keep)
 	./hacking/e2e_subm.sh clean
 endif

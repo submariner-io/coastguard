@@ -4,10 +4,16 @@ set -e
 cd $(dirname $0)
 
 status=$1
-# ./build
-# ./package
+./build
+./package
 
 export KUBECONFIG=$(echo $(git rev-parse --show-toplevel)/.tmp/submariner/output/kind-config/dapper/kind-config-cluster{1..3} | sed 's/ /:/g')
+
+cd ../package
+
+docker tag submariner-io/coastguard-controller:dev coastguard-controller:local
+kind --name cluster1 load docker-image coastguard-controller:local
+kubectl apply --context cluster1 -f coastguard-deployment.yaml
 
 cd ../test/e2e
 

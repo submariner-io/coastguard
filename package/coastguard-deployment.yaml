@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coastguard-controller
+  namespace: kube-federation-system
+  labels:
+    app: coastguard-controller
+spec:
+  selector:
+    matchLabels:
+      app: coastguard-controller
+  template:
+    metadata:
+      labels:
+        app: coastguard-controller
+    spec:
+      containers:
+      - name: coastguard-controller
+        image: coastguard-controller:local
+      serviceAccount: kubefed-controller     # for production we need to create our own service account and
+      serviceAccountName: kubefed-controller # provide access to KubeFedClusters
+

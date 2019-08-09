@@ -10,12 +10,14 @@ SUFFIX=""
 TAG=${TAG:-${VERSION}${SUFFIX}}
 REPO=${REPO:-submariner-io}
 
-cd $(dirname $0)/../package
+cd $(dirname $0)
+
+cd ../package
 
 cp ../bin/coastguard-controller coastguard-controller
 
-IMAGE=${REPO}/coastguard:${TAG}
-ROUTEAGENT_IMAGE=${REPO}/coastguard-controller:${TAG}
+IMAGE=${REPO}/coastguard-controller:${TAG}
+COASTGUARD_IMAGE=${REPO}/coastguard-controller:${TAG}
 
 docker build -t ${IMAGE} .
 
