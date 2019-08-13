@@ -29,19 +29,21 @@ type CoastguardController struct {
 	// later in time we can come up with a more granular implementation.
 	processingMutex *sync.Mutex
 
-	remoteNetworkPolicies map[string]*networkpolicy.RemoteNetworkPolicy
-	remotePods            map[string]*networkpolicy.RemotePod
+	remoteNetworkPolicies    map[string]*networkpolicy.RemoteNetworkPolicy
+	remoteGenNetworkPolicies map[string]*remoteGeneratedNetworkPolicy
+	remotePods               map[string]*networkpolicy.RemotePod
 }
 
 func New() *CoastguardController {
 
 	return &CoastguardController{
-		remoteClusters:        make(map[string]*remotecluster.RemoteCluster),
-		syncedClusters:        make(map[string]*remotecluster.RemoteCluster),
-		processingMutex:       &sync.Mutex{},
-		clusterEvents:         make(chan *remotecluster.Event, eventChannelSize),
-		remoteNetworkPolicies: make(map[string]*networkpolicy.RemoteNetworkPolicy),
-		remotePods:            make(map[string]*networkpolicy.RemotePod),
+		remoteClusters:           make(map[string]*remotecluster.RemoteCluster),
+		syncedClusters:           make(map[string]*remotecluster.RemoteCluster),
+		processingMutex:          &sync.Mutex{},
+		clusterEvents:            make(chan *remotecluster.Event, eventChannelSize),
+		remoteNetworkPolicies:    make(map[string]*networkpolicy.RemoteNetworkPolicy),
+		remoteGenNetworkPolicies: make(map[string]*remoteGeneratedNetworkPolicy),
+		remotePods:               make(map[string]*networkpolicy.RemotePod),
 	}
 }
 
@@ -63,4 +65,12 @@ func (c *CoastguardController) Run(stopCh <-chan struct{}) {
 	}
 
 	close(c.clusterEvents)
+}
+
+func (c *CoastguardController) AllClustersSynced() bool {
+
+	c.processingMutex.Lock()
+	defer c.processingMutex.Unlock()
+
+	return len(c.syncedClusters) == len(c.remoteClusters)
 }

@@ -1,7 +1,6 @@
 package networkpolicy
 
 import (
-	"encoding/json"
 	"fmt"
 	"reflect"
 
@@ -15,8 +14,8 @@ import (
 )
 
 type RemoteNetworkPolicy struct {
-	//cluster is the origin of the network policy
-	cluster *remotecluster.RemoteCluster
+	//Cluster is the origin of the network policy
+	Cluster *remotecluster.RemoteCluster
 
 	//Np is the NetworkPolicy origin of this tracking
 	Np *v1net.NetworkPolicy
@@ -25,9 +24,9 @@ type RemoteNetworkPolicy struct {
 	//when changes are detected on such Pod
 	remotePods map[string]*RemotePod
 
-	//genPol it's the generated network policy for the remote NetworkPolicy
+	//GeneratedPolicy is the generated network policy for the remote NetworkPolicy
 	//if any policy is generated
-	genPol *v1net.NetworkPolicy
+	GeneratedPolicy *v1net.NetworkPolicy
 
 	ObjID string
 }
@@ -50,7 +49,7 @@ func NewRemoteNetworkPolicy(np *v1net.NetworkPolicy, remoteCluster *remotecluste
 	objID string, existingPods map[string]*RemotePod) *RemoteNetworkPolicy {
 
 	rnp := &RemoteNetworkPolicy{
-		cluster:    remoteCluster,
+		Cluster:    remoteCluster,
 		Np:         np,
 		remotePods: make(map[string]*RemotePod),
 		ObjID:      objID,
@@ -113,7 +112,7 @@ func (rnp *RemoteNetworkPolicy) DeletedPod(event *remotecluster.Event) {
 func (rnp *RemoteNetworkPolicy) ingressSelectsPod(pod *v1.Pod, remoteCluster *remotecluster.RemoteCluster) bool {
 
 	// never select pods from it's own cluster, it's not our business
-	if rnp.cluster.ClusterID == remoteCluster.ClusterID {
+	if rnp.Cluster.ClusterID == remoteCluster.ClusterID {
 		return false
 	}
 
@@ -181,19 +180,37 @@ func (rnp *RemoteNetworkPolicy) updatedRemotePod(remotePod *RemotePod) {
 	rnp.updateGeneratedPolicy()
 }
 
+// The originating network policy ID
 const coastGuardUIDLabel = "submariner-io/coastguard-Np-uid"
+
+//The name of the originating NetworkPolicy
 const coastGuardNameLabel = "submariner-io/coastguard-Np"
+
+//The name internal coastguard ID for the originating policy ID
+const coastGuardObjID = "submariner-io/coastguard-objid"
+
+func IsGenerated(np *v1net.NetworkPolicy) bool {
+	_, annotationExists := np.Annotations[coastGuardObjID]
+	return annotationExists
+}
+
+func OriginatingObjID(np *v1net.NetworkPolicy) string {
+	return np.Annotations[coastGuardObjID]
+}
 
 func (rnp *RemoteNetworkPolicy) updateGeneratedPolicy() {
 
 	if len(rnp.remotePods) == 0 {
-		rnp.genPol = nil
+		rnp.GeneratedPolicy = nil
 	} else {
 		// make a copy so we maintain the same podSelector, etc...
 		newPol := &v1net.NetworkPolicy{
 			ObjectMeta: metav1.ObjectMeta{
 				Namespace: rnp.Np.Namespace,
 				Name:      generatePolicyName(rnp.Np),
+				Annotations: map[string]string{
+					coastGuardObjID: rnp.ObjID,
+				},
 				Labels: map[string]string{
 					coastGuardNameLabel: rnp.Np.Name,
 					coastGuardUIDLabel:  string(rnp.Np.UID),
@@ -206,12 +223,17 @@ func (rnp *RemoteNetworkPolicy) updateGeneratedPolicy() {
 		}
 
 		if len(newPol.Spec.Ingress) > 0 {
-			rnp.genPol = newPol
-			newPolStr, _ := json.MarshalIndent(newPol, "", "\t")
-			klog.Infof("a new policy has been generated for %s:\n%s", rnp.ObjID, newPolStr)
+			if rnp.GeneratedPolicy != nil && ArePolicyRulesDifferent(rnp.GeneratedPolicy, newPol) ||
+				rnp.GeneratedPolicy == nil {
+				rnp.GeneratedPolicy = newPol
+				klog.Infof("a new policy has been generated for %s", rnp.ObjID)
+
+			}
 		} else {
-			rnp.genPol = nil
-			klog.Infof("no matching pods on ingress rules for %s, no policy generated anymore", rnp.ObjID)
+			if rnp.GeneratedPolicy != nil {
+				klog.Infof("no matching pods on ingress rules for %s, no policy generated anymore", rnp.ObjID)
+			}
+			rnp.GeneratedPolicy = nil
 		}
 	}
 }
@@ -249,4 +271,16 @@ func generatePolicyName(np *v1net.NetworkPolicy) string {
 
 func (rnp *RemoteNetworkPolicy) GeneratedPolicyName() string {
 	return generatePolicyName(rnp.Np)
+}
+
+func ArePolicyRulesDifferent(actualNp, expectedNp *v1net.NetworkPolicy) bool {
+
+	if !reflect.DeepEqual(actualNp.Spec.PodSelector, expectedNp.Spec.PodSelector) {
+		return true
+	}
+
+	if !reflect.DeepEqual(actualNp.Spec.Ingress, expectedNp.Spec.Ingress) {
+		return true
+	}
+	return false
 }
