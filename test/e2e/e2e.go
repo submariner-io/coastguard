@@ -72,5 +72,5 @@ func RunE2ETests(t *testing.T) {
 		config.GinkgoConfig.ParallelNode)
 	junitPath := filepath.Join(reportDir, junitFile)
 	reporterList = append(reporterList, reporters.NewJUnitReporter(junitPath))
-	ginkgo.RunSpecsWithDefaultAndCustomReporters(t, "Submariner E2E suite", reporterList)
+	ginkgo.RunSpecsWithDefaultAndCustomReporters(t, "Coastguard E2E suite", reporterList)
 }
