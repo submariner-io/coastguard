@@ -39,7 +39,7 @@ func describeExtractEventDetails() {
 			pod := NewPod(testPodName)
 			event := remoteCluster.extractEventDetails(pod, &Event{})
 			Expect(event.ObjType).To(Equal(Pod))
-			Expect(event.ObjID).To(Equal(clusterID1 + ":" + testNamespace + "/" + testPodName))
+			Expect(event.ObjID).To(Equal(clusterID1 + ":" + testNamespace + "/" + testPodName + "/" + testUID))
 		})
 	})
 
@@ -48,7 +48,7 @@ func describeExtractEventDetails() {
 			np := NewNetworkPolicy(testNetworkPolicyName)
 			event := remoteCluster.extractEventDetails(np, &Event{})
 			Expect(event.ObjType).To(Equal(NetworkPolicy))
-			Expect(event.ObjID).To(Equal(clusterID1 + ":" + testNamespace + "/" + testNetworkPolicyName))
+			Expect(event.ObjID).To(Equal(clusterID1 + ":" + testNamespace + "/" + testNetworkPolicyName + "/" + testUID))
 		})
 	})
 
@@ -328,6 +328,7 @@ const testNamespace = "default"
 const testPodName = "pod1"
 const testPodNameOld = "pod1-old"
 const testNetworkPolicyName = "np1"
+const testUID = "ff3b5269-1201-4e2c-95f5-46fc69ff6c63"
 
 func NewPod(name string) *v1.Pod {
 
@@ -335,6 +336,7 @@ func NewPod(name string) *v1.Pod {
 		ObjectMeta: metav1.ObjectMeta{
 			Namespace: testNamespace,
 			Name:      name,
+			UID:       testUID,
 		},
 		Status: v1.PodStatus{
 			Conditions: []v1.PodCondition{
@@ -354,6 +356,7 @@ func NewNetworkPolicy(name string) *v1net.NetworkPolicy {
 		ObjectMeta: metav1.ObjectMeta{
 			Namespace: "default",
 			Name:      name,
+			UID:       testUID,
 		},
 	}
 	return np

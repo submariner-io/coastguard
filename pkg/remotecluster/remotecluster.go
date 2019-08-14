@@ -7,6 +7,7 @@ import (
 
 	v1 "k8s.io/api/core/v1"
 	v1net "k8s.io/api/networking/v1"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/informers"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/cache"
@@ -209,10 +210,10 @@ func (rc *RemoteCluster) extractEventDetails(objInterface interface{}, event *Ev
 	switch obj := objInterface.(type) {
 	case *v1.Pod:
 		event.ObjType = Pod
-		event.ObjID = ObjID(rc.ClusterID, obj.Namespace, obj.Name)
+		event.ObjID = ObjID(rc.ClusterID, obj.Namespace, obj.Name, obj.UID)
 	case *v1net.NetworkPolicy:
 		event.ObjType = NetworkPolicy
-		event.ObjID = ObjID(rc.ClusterID, obj.Namespace, obj.Name)
+		event.ObjID = ObjID(rc.ClusterID, obj.Namespace, obj.Name, obj.UID)
 	case cache.DeletedFinalStateUnknown:
 		return rc.extractEventDetails(obj.Obj, event)
 	default:
@@ -222,6 +223,6 @@ func (rc *RemoteCluster) extractEventDetails(objInterface interface{}, event *Ev
 	return event
 }
 
-func ObjID(clusterID string, ns string, name string) string {
-	return fmt.Sprintf("%s:%s/%s", clusterID, ns, name)
+func ObjID(clusterID, ns, name string, uid types.UID) string {
+	return fmt.Sprintf("%s:%s/%s/%s", clusterID, ns, name, string(uid))
 }

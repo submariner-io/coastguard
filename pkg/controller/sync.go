@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"time"
+
 	v1 "k8s.io/api/core/v1"
 	v1net "k8s.io/api/networking/v1"
 	"k8s.io/klog"
@@ -8,6 +10,8 @@ import (
 	"github.com/submariner-io/coastguard/pkg/networkpolicy"
 	"github.com/submariner-io/coastguard/pkg/remotecluster"
 )
+
+const policySyncPeriod = 5 * time.Second
 
 func (c *CoastguardController) onClusterFinishedSyncing(cluster *remotecluster.RemoteCluster) {
 
@@ -19,10 +23,15 @@ func (c *CoastguardController) onClusterFinishedSyncing(cluster *remotecluster.R
 }
 
 func (c *CoastguardController) processLoop(stopCh <-chan struct{}) {
+
+	policySyncTicker := time.NewTicker(policySyncPeriod)
+
 	for {
 		select {
 		case event := <-c.clusterEvents:
 			c.processEvent(event)
+		case <-policySyncTicker.C:
+			c.syncGeneratedPolicies()
 		case <-stopCh:
 			klog.Info("exited process loop")
 			return
@@ -47,6 +56,15 @@ func (c *CoastguardController) processEvent(event *remotecluster.Event) {
 }
 
 func (c *CoastguardController) processNetworkPolicyEvent(event *remotecluster.Event) {
+	np := event.Objs[0].(*v1net.NetworkPolicy)
+	if networkpolicy.IsGenerated(np) {
+		c.processGeneratedNetworkPolicyEvent(event)
+	} else {
+		c.processOriginalNetworkPolicyEvent(event)
+	}
+}
+
+func (c *CoastguardController) processOriginalNetworkPolicyEvent(event *remotecluster.Event) {
 	switch event.Type {
 	case remotecluster.AddEvent:
 		c.addedRemoteNetworkPolicy(event)
@@ -75,8 +93,7 @@ func (c *CoastguardController) addedRemoteNetworkPolicy(event *remotecluster.Eve
 		np := event.Objs[0].(*v1net.NetworkPolicy)
 		c.remoteNetworkPolicies[event.ObjID] = networkpolicy.NewRemoteNetworkPolicy(np, event.Cluster, event.ObjID, c.remotePods)
 	} else {
-		event.Objs = append([]interface{}{rnp.Np}, event.Objs[0])
-		c.updateRemoteNetworkPolicy(event)
+		c.updateRemoteNetworkPolicy(event.ToUpdatedFrom(rnp.Np))
 	}
 }
 
@@ -87,7 +104,7 @@ func (c *CoastguardController) updateRemoteNetworkPolicy(event *remotecluster.Ev
 		rnp := networkpolicy.NewRemoteNetworkPolicy(np, event.Cluster, event.ObjID, c.remotePods)
 		c.remoteNetworkPolicies[event.ObjID] = rnp
 	} else {
-		c.addedRemoteNetworkPolicy(event)
+		c.addedRemoteNetworkPolicy(event.ToAdded())
 	}
 }
 

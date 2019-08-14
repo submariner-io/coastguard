@@ -79,8 +79,8 @@ func describeRuleMatching() {
 		It("Should copy the Port definitions", func() {
 
 			addAllPods(rnp, clusters, clusterPods)
-			Expect(rnp.genPol.Spec.Ingress).To(HaveLen(1))
-			ingressPolicy := rnp.genPol.Spec.Ingress[0]
+			Expect(rnp.GeneratedPolicy.Spec.Ingress).To(HaveLen(1))
+			ingressPolicy := rnp.GeneratedPolicy.Spec.Ingress[0]
 			Expect(ingressPolicy.Ports).To(HaveLen(1))
 			Expect(ingressPolicy.Ports[0].Port.IntVal).To(BeIdenticalTo(int32(testPort)))
 		})
@@ -90,8 +90,8 @@ func describeRuleMatching() {
 		It("Should convert ingress selectors to pod IPs", func() {
 
 			addAllPods(rnp, clusters, clusterPods)
-			Expect(rnp.genPol.Spec.Ingress).To(HaveLen(1))
-			ingressPolicy := rnp.genPol.Spec.Ingress[0]
+			Expect(rnp.GeneratedPolicy.Spec.Ingress).To(HaveLen(1))
+			ingressPolicy := rnp.GeneratedPolicy.Spec.Ingress[0]
 
 			// This policy lives on cluster1, and should select pods with
 			// selected-pods label, from cluster2 and cluster3, namespace1
@@ -114,13 +114,13 @@ func describeRuleMatching() {
 				})
 			addAllPods(rnp, clusters, clusterPods)
 
-			Expect(rnp.genPol.Spec.Ingress).To(HaveLen(2))
+			Expect(rnp.GeneratedPolicy.Spec.Ingress).To(HaveLen(2))
 
 			By("Verifying the 2.1.1.1 and 3.1.1.1 IPs are on ingress rule one")
-			CheckCIDRs(rnp.genPol.Spec.Ingress[0].From, []string{"2.1.1.1", "3.1.1.1"})
+			CheckCIDRs(rnp.GeneratedPolicy.Spec.Ingress[0].From, []string{"2.1.1.1", "3.1.1.1"})
 
 			By("Verifying the 2.3.1.1 and 3.3.1.1 IPs are on ingress rule two")
-			CheckCIDRs(rnp.genPol.Spec.Ingress[1].From, []string{"2.3.1.1", "3.3.1.1"})
+			CheckCIDRs(rnp.GeneratedPolicy.Spec.Ingress[1].From, []string{"2.3.1.1", "3.3.1.1"})
 		})
 	})
 
@@ -133,9 +133,9 @@ func describeRuleMatching() {
 				})
 			addAllPods(rnp, clusters, clusterPods)
 			By("checking that the generated policy only has one ingress rule, removing the original np IPBlock")
-			Expect(rnp.genPol.Spec.Ingress).To(HaveLen(1))
+			Expect(rnp.GeneratedPolicy.Spec.Ingress).To(HaveLen(1))
 
-			CheckCIDRs(rnp.genPol.Spec.Ingress[0].From, []string{"2.1.1.1", "3.1.1.1"})
+			CheckCIDRs(rnp.GeneratedPolicy.Spec.Ingress[0].From, []string{"2.1.1.1", "3.1.1.1"})
 
 		})
 	})
@@ -147,7 +147,7 @@ func describeRuleMatching() {
 				Ports: []networkingv1.NetworkPolicyPort{{Port: &intstr.IntOrString{IntVal: testPort443}}},
 			}}
 			addAllPods(rnp, clusters, clusterPods)
-			Expect(rnp.genPol).To(BeNil())
+			Expect(rnp.GeneratedPolicy).To(BeNil())
 		})
 	})
 
@@ -161,7 +161,7 @@ func describeRuleMatching() {
 				Ports: []networkingv1.NetworkPolicyPort{{Port: &intstr.IntOrString{IntVal: testPort443}}},
 			}}
 			addAllPods(rnp, clusters, clusterPods)
-			Expect(rnp.genPol).To(BeNil())
+			Expect(rnp.GeneratedPolicy).To(BeNil())
 		})
 	})
 
@@ -178,7 +178,7 @@ func describeRuleMatching() {
 
 			ips := collectPodIPs(clusterPods[1:])
 
-			CheckCIDRs(rnp.genPol.Spec.Ingress[0].From, ips)
+			CheckCIDRs(rnp.GeneratedPolicy.Spec.Ingress[0].From, ips)
 		})
 	})
 }
@@ -293,7 +293,7 @@ func newDefaultRemotePolicyAndCluster() (*RemoteNetworkPolicy, *remotecluster.Re
 func createRemotePolicyAndCluster(selectedPods string, ingressPods string, namespace string, clusterID string) (*RemoteNetworkPolicy, *remotecluster.RemoteCluster) {
 	np := createPodSelectorNetworkPolicy(selectedPods, ingressPods, namespace)
 	rc1 := remotecluster.New(clusterID, fake.NewSimpleClientset())
-	rp := NewRemoteNetworkPolicy(np, rc1, remotecluster.ObjID(np.Namespace, np.Name, rc1.ClusterID), nil)
+	rp := NewRemoteNetworkPolicy(np, rc1, remotecluster.ObjID(np.Namespace, np.Name, rc1.ClusterID, np.UID), nil)
 	return rp, rc1
 }
 
