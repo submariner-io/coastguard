@@ -11,4 +11,4 @@ PACKAGES=$(find_go_pkg_dirs)
 
 echo Running tests in ${PACKAGES}
 [ "${ARCH}" == "amd64" ] && RACE=-race
-ginkgo ${RACE} -cover ${PACKAGES}
+ginkgo ${RACE} -cover -v ${PACKAGES}

@@ -160,6 +160,10 @@ func (rc *RemoteCluster) OnUpdate(oldObj interface{}, newObj interface{}) {
 
 func (rc *RemoteCluster) enqueueEvent(event *Event) {
 
+	if event == nil {
+		return
+	}
+
 	// lock used as memory barrier to make sure eventChannel ref
 	// is synchronized between threads
 	rc.eventChanMutex.Lock()
