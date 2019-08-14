@@ -13,4 +13,7 @@ require (
 	k8s.io/klog v0.0.0-20181108234604-8139d8cb77af
 )
 
-replace github.com/bronze1man/goStrongswanVici => github.com/mangelajo/goStrongswanVici v0.0.0-20190223031456-9a5ae4453bd
+replace (
+    github.com/bronze1man/goStrongswanVici => github.com/mangelajo/goStrongswanVici v0.0.0-20190223031456-9a5ae4453bd
+	github.com/submariner-io/admiral => github.com/tpantelis/admiral v0.0.0-0.20190715192543-1ada6524e26
+)
