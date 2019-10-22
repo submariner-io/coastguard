@@ -1,6 +1,7 @@
 github.com/coreos/go-iptables v0.4.0/go.mod h1:/mVI274lEDI2ns62jHCDnCyBF9Iwsmekav8Dbxlm1MU=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/evanphx/json-patch v0.0.0-20180908160633-36442dbdb585 h1:/+EOw4CL9EF7TJ5AKKZ69+rh3pKsMxoXezr1lcr2se0=
 github.com/evanphx/json-patch v0.0.0-20180908160633-36442dbdb585/go.mod h1:50XU6AFN0ol/bzJsmQLiYLvXMP4fmwYFNcr97nuDLSk=
 github.com/evanphx/json-patch v4.5.0+incompatible h1:ouOWdg56aJriqS0huScTkVXPC5IcNrDCXZ6OoTAWu7M=
 github.com/evanphx/json-patch v4.5.0+incompatible/go.mod h1:50XU6AFN0ol/bzJsmQLiYLvXMP4fmwYFNcr97nuDLSk=
@@ -16,6 +17,7 @@ github.com/gogo/protobuf v0.0.0-20171007142547-342cbe0a0415 h1:WSBJMqJbLxsn+bTCP
 github.com/gogo/protobuf v0.0.0-20171007142547-342cbe0a0415/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
 github.com/golang/groupcache v0.0.0-20160516000752-02826c3e7903 h1:LbsanbbD6LieFkXbj9YNNBupiGHJgFeLpO0j0Fza1h8=
 github.com/golang/groupcache v0.0.0-20160516000752-02826c3e7903/go.mod h1:cIg4eruTrX1D+g88fzRXU5OdNfaM+9IcxsU14FzY7Hc=
+github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFUx0Y=
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/golang/protobuf v1.3.1 h1:YF8+flBXS5eO826T4nzqPrxfhQThhXl0YzfuUPu4SBg=
 github.com/golang/protobuf v1.3.1/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
@@ -64,8 +66,12 @@ github.com/stretchr/testify v1.2.2 h1:bSDNvY7ZPG5RlJ8otE/7V6gMiyenm9RtJ7IUVIAoJ1
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 github.com/submariner-io/admiral v0.0.0-20190717183806-f2aad3ff7771 h1:lvZXlWv2HqBqskhd91Xoqln7Bkmnk3yMV3sQoZD06u4=
 github.com/submariner-io/admiral v0.0.0-20190717183806-f2aad3ff7771/go.mod h1:XXQOA/e4O8DlwU794gojNSHny4y7HlpJEHbKoIITEAo=
+github.com/submariner-io/admiral v0.0.0-20190910105841-6188b5ef1d22 h1:Civfy0yRYJyVzaX0hNSIRGi+khUquOOnvCLVCdLUny0=
+github.com/submariner-io/admiral v0.0.0-20190910105841-6188b5ef1d22/go.mod h1:Whq7VSx3ittU8w2zXqaxXw1yVNThQxoS+1PuX9w8HRI=
 github.com/submariner-io/submariner v0.0.0-20190708095718-350482d85dd4 h1:I3u6Ya9Kq3aCBASjeICy1aMSQLekoEFqtc+yI83N0yI=
 github.com/submariner-io/submariner v0.0.0-20190708095718-350482d85dd4/go.mod h1:rhs9zijKKV/HOc044Dh9XeHzx852V2RnFCsp2TNzzuY=
+github.com/submariner-io/submariner v0.0.2-0.20190828132721-a11a9a84c90d h1:IWLdQxR9mDgVNEBTyI0cjFNn8AXiLkRIPw5grQGTtzs=
+github.com/submariner-io/submariner v0.0.2-0.20190828132721-a11a9a84c90d/go.mod h1:CTCPMZnhq6v/2+iMNcyED6TI6RjU8r+m0XIkNe1PkEo=
 github.com/vishvananda/netlink v1.0.0/go.mod h1:+SR5DhBJrl6ZM7CoCKvpw5BKroDKQ+PJqOg65H/2ktk=
 github.com/vishvananda/netns v0.0.0-20180720170159-13995c7128cc/go.mod h1:ZjcWmFBXmLKZu9Nxj3WKYEafiSqer2rnvPr0en9UNpI=
 go.uber.org/atomic v1.4.0 h1:cxzIVoETapQEqDhQu3QfnvXAV4AlzcvUCxkVUFw3+EU=
@@ -97,6 +103,7 @@ golang.org/x/text v0.3.2/go.mod h1:bEr9sfX3Q8Zfm5fL9x+3itogRgK3+ptLWKqgva+5dAk=
 golang.org/x/time v0.0.0-20161028155119-f51c12702a4d h1:TnM+PKb3ylGmZvyPXmo9m/wktg7Jn/a/fNmr33HSj8g=
 golang.org/x/time v0.0.0-20161028155119-f51c12702a4d/go.mod h1:tRJNPiyCQ0inRvYxbN9jk5I+vvW/OXSQhTDSoE431IQ=
 golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=
+golang.org/x/tools v0.0.0-20190425150028-36563e24a262/go.mod h1:RgjU9mgBXZiqYHBnxXauZ1Gv1EHHAz9KjViQ78xBX0Q=
 golang.org/x/tools v0.0.0-20190606124116-d0a3d012864b/go.mod h1:/rFqwRUd4F7ZHNgwSSTFct+R/Kf4OFW1sUzUTQQTgfc=
 google.golang.org/appengine v1.6.1 h1:QzqyMA1tlu6CgqCDUtU9V+ZKhLFT2dkJuANu5QaxI3I=
 google.golang.org/appengine v1.6.1/go.mod h1:i06prIuMbXzDqacNJfV5OdTW448YApPu5ww/cMBSeb0=
