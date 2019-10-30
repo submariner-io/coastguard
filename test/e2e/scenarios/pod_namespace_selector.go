@@ -2,9 +2,11 @@ package scenarios
 
 import (
 	. "github.com/onsi/ginkgo"
+	"github.com/submariner-io/submariner/test/e2e/framework"
 )
 
 var _ = PDescribe("[Dataplane] Pod and Namespace selector based Network Policies for ingress between clusters", func() {
+	f := framework.NewDefaultFramework("np-pod-namespace")
 	PIt("Should allow communication between selected pods in selected namespace", func() {
 		By("creating listener pod 1 with label 1 in cluster 1 in namespace 1")
 		By("creating connecting pod 2 with label 2 in cluster 2 in namespace 2")

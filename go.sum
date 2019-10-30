@@ -1,3 +1,5 @@
+github.com/Jaanki/submariner v0.0.0-0.20190715192543-4ddc056cb8c89702ac2b85bec421fa039e232cd6 h1:5odCyPfQt81sgZSW+BZL4r0IyoQrSoNoc9bG0/w77xM=
+github.com/Jaanki/submariner v0.0.0-0.20190715192543-4ddc056cb8c89702ac2b85bec421fa039e232cd6/go.mod h1:CTCPMZnhq6v/2+iMNcyED6TI6RjU8r+m0XIkNe1PkEo=
 github.com/coreos/go-iptables v0.4.0/go.mod h1:/mVI274lEDI2ns62jHCDnCyBF9Iwsmekav8Dbxlm1MU=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -64,8 +66,6 @@ github.com/stretchr/testify v1.2.2 h1:bSDNvY7ZPG5RlJ8otE/7V6gMiyenm9RtJ7IUVIAoJ1
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 github.com/submariner-io/admiral v0.0.0-20190717183806-f2aad3ff7771 h1:lvZXlWv2HqBqskhd91Xoqln7Bkmnk3yMV3sQoZD06u4=
 github.com/submariner-io/admiral v0.0.0-20190717183806-f2aad3ff7771/go.mod h1:XXQOA/e4O8DlwU794gojNSHny4y7HlpJEHbKoIITEAo=
-github.com/submariner-io/submariner v0.0.0-20190708095718-350482d85dd4 h1:I3u6Ya9Kq3aCBASjeICy1aMSQLekoEFqtc+yI83N0yI=
-github.com/submariner-io/submariner v0.0.0-20190708095718-350482d85dd4/go.mod h1:rhs9zijKKV/HOc044Dh9XeHzx852V2RnFCsp2TNzzuY=
 github.com/vishvananda/netlink v1.0.0/go.mod h1:+SR5DhBJrl6ZM7CoCKvpw5BKroDKQ+PJqOg65H/2ktk=
 github.com/vishvananda/netns v0.0.0-20180720170159-13995c7128cc/go.mod h1:ZjcWmFBXmLKZu9Nxj3WKYEafiSqer2rnvPr0en9UNpI=
 go.uber.org/atomic v1.4.0 h1:cxzIVoETapQEqDhQu3QfnvXAV4AlzcvUCxkVUFw3+EU=
