@@ -14,6 +14,6 @@ require (
 )
 
 replace (
-    github.com/bronze1man/goStrongswanVici => github.com/mangelajo/goStrongswanVici v0.0.0-20190223031456-9a5ae4453bd
-	github.com/submariner-io/admiral => github.com/tpantelis/admiral v0.0.0-0.20190715192543-1ada6524e26
+	github.com/bronze1man/goStrongswanVici => github.com/mangelajo/goStrongswanVici v0.0.0-20190223031456-9a5ae4453bd
+	github.com/submariner-io/submariner => github.com/Jaanki/submariner v0.0.0-0.20190715192543-4ddc056cb8c89702ac2b85bec421fa039e232cd6
 )
