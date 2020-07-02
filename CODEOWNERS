@@ -1,3 +1,8 @@
 * @mangelajo @tpantelis @Oats87
 go.sum @skitt
 go.mod @skitt
+/.github/workflows/ 	@mkolesnik
+/scripts/ 		@mkolesnik
+Makefile* 		@mkolesnik
+Dockerfile.dapper 	@mkolesnik
+package/  		@mkolesnik
