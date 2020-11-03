@@ -1,6 +1,4 @@
-* @mangelajo @tpantelis @Oats87
-go.sum @skitt
-go.mod @skitt
+* @mangelajo @tpantelis @Oats87 @skitt
 /.github/workflows/ 	@mkolesnik
 /scripts/ 		@mkolesnik
 Makefile* 		@mkolesnik
