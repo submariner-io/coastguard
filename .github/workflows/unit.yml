@@ -1,0 +1,21 @@
+---
+name: Unit Tests
+
+on:
+  pull_request:
+  push:
+    tags:
+      - 'v**'
+
+jobs:
+  unit-testing:
+    name: Go Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Run Go unit tests
+        run: |
+          set -o pipefail
+          make unit

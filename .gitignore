@@ -1,5 +1,6 @@
 .idea
 .dapper
+.shflags
 .tmp
 bin
 dist
@@ -9,3 +10,7 @@ output
 .project
 .settings
 *.coverprofile
+junit.xml
+Dockerfile.dapper?*
+Makefile.dapper
+package/.image*
