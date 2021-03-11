@@ -1,29 +1,32 @@
-TARGETS := $(shell ls scripts | grep -v e2e)
+BASE_BRANCH ?= devel
+export BASE_BRANCH
 
-.dapper:
-	@echo Downloading dapper
-	@curl -sL https://releases.rancher.com/dapper/latest/dapper-`uname -s`-`uname -m` > .dapper.tmp
-	@@chmod +x .dapper.tmp
-	@./.dapper.tmp -v
-	@mv .dapper.tmp .dapper
+ifneq (,$(DAPPER_HOST_ARCH))
 
-$(TARGETS): .dapper
-	./.dapper -m bind $@
+# Running in Dapper
 
-e2e: .dapper ./hacking/e2e_subm.sh
-ifneq ($(status),clean)
-	./hacking/e2e_subm.sh
-	./.dapper -m bind e2e $(status)
+IMAGES ?= coastguard
+images: build
+
+UNIT_TEST_ARGS := test/e2e
+
+build: bin/coastguard-controller
+bin/coastguard-controller: vendor/modules.txt $(shell find pkg)
+	${SCRIPTS_DIR}/compile.sh $@ pkg/coastguard/main.go $(BUILD_ARGS)
+
+include $(SHIPYARD_DIR)/Makefile.inc
+
+else
+
+# Not running in Dapper
+
+Makefile.dapper:
+	@echo Downloading $@
+	@curl -sflO https://raw.githubusercontent.com/submariner-io/shipyard/$(BASE_BRANCH)/$@
+
+include Makefile.dapper
+
 endif
 
-e2e-coastguard: .dapper
-	./.dapper -m bind e2e keep
-
-ifneq ($(status),keep)
-	./hacking/e2e_subm.sh clean
-endif
-
-.DEFAULT_GOAL := ci
-
-.PHONY: $(TARGETS)
-
+# Disable rebuilding Makefile
+Makefile Makefile.inc: ;
