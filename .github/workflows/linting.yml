@@ -25,6 +25,16 @@ jobs:
       - name: Run golangci-lint
         run: make golangci-lint
 
+  headers:
+    name: License Headers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Check License Headers
+        uses: kt3k/license_checker@v1.0.6
+
   markdown-link-check:
     name: Markdown Links (modified files)
     runs-on: ubuntu-latest
