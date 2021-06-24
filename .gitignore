@@ -11,6 +11,6 @@ output
 .settings
 *.coverprofile
 junit.xml
-Dockerfile.dapper?*
+Dockerfile.*
 Makefile.dapper
 package/.image*
