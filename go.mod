@@ -4,7 +4,7 @@ go 1.12
 
 require (
 	github.com/onsi/ginkgo v1.16.4
-	github.com/onsi/gomega v1.13.0
+	github.com/onsi/gomega v1.14.0
 	github.com/submariner-io/admiral v0.0.0-20190910105841-6188b5ef1d22
 	github.com/submariner-io/submariner v0.0.2-0.20190828132721-a11a9a84c90d
 	k8s.io/api v0.0.0-20190222213804-5cb15d344471
