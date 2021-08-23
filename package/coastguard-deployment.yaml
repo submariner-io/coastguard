@@ -18,5 +18,5 @@ spec:
       containers:
         - name: coastguard-controller
           image: coastguard-controller:local
-      serviceAccount: kubefed-controller     # for production we need to create our own service account and
-      serviceAccountName: kubefed-controller # provide access to KubeFedClusters
+      serviceAccount: kubefed-controller      # for production we need to create our own service account and
+      serviceAccountName: kubefed-controller  # provide access to KubeFedClusters
