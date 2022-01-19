@@ -33,7 +33,7 @@ linters:
     - dupl
     - durationcheck
     - errcheck
-    # - errorlint # TODO
+    - errorlint
     - errname
     - exhaustive
     # - exhaustivestruct # Not recommended for general use - meant to be used only for special cases

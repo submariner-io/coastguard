@@ -19,6 +19,7 @@ package healthz
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"time"
 
@@ -44,7 +45,7 @@ func (hs *HealthzServer) Run(stop <-chan struct{}) {
 
 	go func() {
 		err := hs.httpServer.ListenAndServe()
-		if err != nil && err != http.ErrServerClosed {
+		if err != nil && !errors.Is(err, http.ErrServerClosed) {
 			close(listenAndServeFailed)
 			klog.Errorf("Unable to start healthz server: %s", err.Error())
 		}
