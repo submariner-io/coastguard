@@ -29,10 +29,10 @@ import (
 // to a remote cluster, that we received back via events. We used to track the
 // remote Cluster where it came from
 type remoteGeneratedNetworkPolicy struct {
-	//Cluster is the origin of the network policy
+	// Cluster is the origin of the network policy
 	cluster *remotecluster.RemoteCluster
 
-	//Np is the NetworkPolicy origin of this tracking
+	// Np is the NetworkPolicy origin of this tracking
 	np *v1net.NetworkPolicy
 }
 

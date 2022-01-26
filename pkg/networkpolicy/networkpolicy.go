@@ -31,18 +31,18 @@ import (
 )
 
 type RemoteNetworkPolicy struct {
-	//Cluster is the origin of the network policy
+	// Cluster is the origin of the network policy
 	Cluster *remotecluster.RemoteCluster
 
-	//Np is the NetworkPolicy origin of this tracking
+	// Np is the NetworkPolicy origin of this tracking
 	Np *v1net.NetworkPolicy
 
-	//remotePods are the pods affected by this specific policy,
-	//when changes are detected on such Pod
+	// remotePods are the pods affected by this specific policy,
+	// when changes are detected on such Pod
 	remotePods map[string]*RemotePod
 
-	//GeneratedPolicy is the generated network policy for the remote NetworkPolicy
-	//if any policy is generated
+	// GeneratedPolicy is the generated network policy for the remote NetworkPolicy
+	// if any policy is generated
 	GeneratedPolicy *v1net.NetworkPolicy
 
 	ObjID string
@@ -200,10 +200,10 @@ func (rnp *RemoteNetworkPolicy) updatedRemotePod(remotePod *RemotePod) {
 // The originating network policy ID
 const coastGuardUIDLabel = "submariner-io/coastguard-Np-uid"
 
-//The name of the originating NetworkPolicy
+// The name of the originating NetworkPolicy
 const coastGuardNameLabel = "submariner-io/coastguard-Np"
 
-//The name internal coastguard ID for the originating policy ID
+// The name internal coastguard ID for the originating policy ID
 const coastGuardObjID = "submariner-io/coastguard-objid"
 
 func IsGenerated(np *v1net.NetworkPolicy) bool {
