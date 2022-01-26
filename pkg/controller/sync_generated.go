@@ -48,10 +48,10 @@ func (c *CoastguardController) syncGeneratedPolicies() {
 }
 
 func (c *CoastguardController) processPoliciesNeedingDistribution() {
-	for objId, rnp := range c.remoteNetworkPolicies {
+	for objID, rnp := range c.remoteNetworkPolicies {
 
 		if rnp.GeneratedPolicy != nil {
-			genPolicyReceived, exists := c.remoteGenNetworkPolicies[objId]
+			genPolicyReceived, exists := c.remoteGenNetworkPolicies[objID]
 			if !exists || networkpolicy.ArePolicyRulesDifferent(genPolicyReceived.np, rnp.GeneratedPolicy) {
 				err := rnp.Cluster.Distribute(rnp.GeneratedPolicy)
 				if err != nil {
@@ -63,18 +63,18 @@ func (c *CoastguardController) processPoliciesNeedingDistribution() {
 }
 
 func (c *CoastguardController) processPoliciesNeedingDelete() {
-	for objId, rnp := range c.remoteNetworkPolicies {
+	for objID, rnp := range c.remoteNetworkPolicies {
 		if rnp.GeneratedPolicy != nil {
 			continue
 		}
-		if rgp, exists := c.remoteGenNetworkPolicies[objId]; exists {
+		if rgp, exists := c.remoteGenNetworkPolicies[objID]; exists {
 			if err := rnp.Cluster.Delete(rgp.np); err != nil {
 				klog.Errorf("There was an error deleting a NetworkPolicy %s", err)
 			}
 		}
 	}
-	for objId, rgnp := range c.remoteGenNetworkPolicies {
-		if _, exists := c.remoteNetworkPolicies[objId]; !exists {
+	for objID, rgnp := range c.remoteGenNetworkPolicies {
+		if _, exists := c.remoteNetworkPolicies[objID]; !exists {
 			if err := rgnp.cluster.Delete(rgnp.np); err != nil {
 				klog.Errorf("There was an error deleting a NetworkPolicy: %s", err)
 			}
@@ -108,10 +108,10 @@ func (c *CoastguardController) addedGeneratedNetworkPolicy(event *remotecluster.
 
 func (c *CoastguardController) updatedGeneratedNetworkPolicy(event *remotecluster.Event) {
 	np := event.Objs[1].(*v1net.NetworkPolicy)
-	origObjId := networkpolicy.OriginatingObjID(np)
+	origObjID := networkpolicy.OriginatingObjID(np)
 
-	if _, exists := c.remoteGenNetworkPolicies[origObjId]; exists {
-		c.remoteGenNetworkPolicies[origObjId] = &remoteGeneratedNetworkPolicy{cluster: event.Cluster, np: np}
+	if _, exists := c.remoteGenNetworkPolicies[origObjID]; exists {
+		c.remoteGenNetworkPolicies[origObjID] = &remoteGeneratedNetworkPolicy{cluster: event.Cluster, np: np}
 	} else {
 		c.addedGeneratedNetworkPolicy(event.ToAdded())
 	}
@@ -119,10 +119,10 @@ func (c *CoastguardController) updatedGeneratedNetworkPolicy(event *remotecluste
 
 func (c *CoastguardController) deletedGeneratedNetworkPolicy(event *remotecluster.Event) {
 	np := event.Objs[0].(*v1net.NetworkPolicy)
-	origObjId := networkpolicy.OriginatingObjID(np)
+	origObjID := networkpolicy.OriginatingObjID(np)
 
-	if _, exists := c.remoteGenNetworkPolicies[origObjId]; exists {
-		delete(c.remoteGenNetworkPolicies, origObjId)
+	if _, exists := c.remoteGenNetworkPolicies[origObjID]; exists {
+		delete(c.remoteGenNetworkPolicies, origObjID)
 	} else {
 		klog.Warningf("A deleteNetworkPolicy event was received for a np not in our cache: %s", event.ObjID)
 	}

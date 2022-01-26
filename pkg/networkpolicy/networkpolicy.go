@@ -149,10 +149,9 @@ func (rnp *RemoteNetworkPolicy) ingressRuleSelectsPod(rule *v1net.NetworkPolicyI
 		} else if peer.NamespaceSelector != nil && peer.PodSelector == nil {
 			if len(peer.NamespaceSelector.MatchLabels) == 0 && len(peer.NamespaceSelector.MatchExpressions) == 0 {
 				return true
-			} else {
-				//TODO: Implement namespace selector
-				klog.Error("Namespace selector still not fully handled")
 			}
+			//TODO: Implement namespace selector
+			klog.Error("Namespace selector still not fully handled")
 		} else if peer.NamespaceSelector != nil && peer.PodSelector != nil {
 			// TODO: Implement namespace and Pod selector combination
 			klog.Error("Namespace selector + podSelector still not handled")
@@ -165,18 +164,16 @@ func (rnp *RemoteNetworkPolicy) matchesPodSelector(podSelector *metav1.LabelSele
 	if len(podSelector.MatchLabels) == 0 && len(podSelector.MatchExpressions) == 0 {
 		// The PodSelector is empty, meaning it selects all pods in this namespace
 		return pod.Namespace == rnp.Np.Namespace
-	} else {
-		// Verify if the Pod is in the same namespace as the policy, and then the podselector
-		if pod.Namespace != rnp.Np.Namespace {
-			return false
-		}
-		if sel, err := metav1.LabelSelectorAsSelector(podSelector); err == nil {
-			return sel.Matches(labels.Set(pod.Labels))
-		} else {
-			klog.Errorf("error validating Np %s PodSelector %v", rnp.ObjID, podSelector)
-			return false
-		}
 	}
+	// Verify if the Pod is in the same namespace as the policy, and then the podselector
+	if pod.Namespace != rnp.Np.Namespace {
+		return false
+	}
+	if sel, err := metav1.LabelSelectorAsSelector(podSelector); err == nil {
+		return sel.Matches(labels.Set(pod.Labels))
+	}
+	klog.Errorf("error validating Np %s PodSelector %v", rnp.ObjID, podSelector)
+	return false
 }
 
 // removeRemotePod
