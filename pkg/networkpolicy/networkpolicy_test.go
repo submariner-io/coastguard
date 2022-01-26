@@ -44,7 +44,7 @@ func testPodName(clusterIndex, podIdx int, label string, namespaceIndex int) str
 	return fmt.Sprintf("c%dpod%d-%s-namespace%d", clusterIndex, podIdx, label, namespaceIndex)
 }
 
-func testPodIp(clusterIndex, labelIndex, namespaceIndex int) string {
+func testPodIP(clusterIndex, labelIndex, namespaceIndex int) string {
 	return fmt.Sprintf("%d.%d.1.%d", clusterIndex, labelIndex, namespaceIndex)
 }
 
@@ -412,11 +412,11 @@ func createTestPodMatrix(clusters []*remotecluster.RemoteCluster) [][]*v1.Pod {
 				namespace := fmt.Sprintf("namespace%d", namespaceIdx)
 
 				pod := newPod(testPodName(clusterIdx+1, podIdx, label, namespaceIdx),
-					namespace, label, testPodIp(clusterIdx+1, labelIdx+1, namespaceIdx))
+					namespace, label, testPodIP(clusterIdx+1, labelIdx+1, namespaceIdx))
 
 				clusterPods[clusterIdx] = append(clusterPods[clusterIdx], pod)
 
-				podIdx += 1
+				podIdx++
 			}
 		}
 	}

@@ -70,7 +70,7 @@ var _ = Describe("Coastguard Healthz server", func() {
 func runHealthzRequest(method, target string) *httptest.ResponseRecorder {
 	req := httptest.NewRequest(method, target, nil)
 	resp := httptest.NewRecorder()
-	healthz := &HealthzServer{}
+	healthz := &Server{}
 	healthz.ServeHTTP(resp, req)
 	return resp
 }

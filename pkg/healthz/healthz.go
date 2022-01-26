@@ -26,12 +26,12 @@ import (
 	"k8s.io/klog"
 )
 
-type HealthzServer struct {
+type Server struct {
 	httpServer *http.Server
 }
 
-func New(address string) *HealthzServer {
-	healthServer := &HealthzServer{
+func New(address string) *Server {
+	healthServer := &Server{
 		httpServer: &http.Server{Addr: address},
 	}
 	healthServer.httpServer.Handler = healthServer
@@ -39,7 +39,7 @@ func New(address string) *HealthzServer {
 	return healthServer
 }
 
-func (hs *HealthzServer) Run(stop <-chan struct{}) {
+func (hs *Server) Run(stop <-chan struct{}) {
 
 	listenAndServeFailed := make(chan struct{})
 
@@ -60,7 +60,7 @@ func (hs *HealthzServer) Run(stop <-chan struct{}) {
 	}
 }
 
-func (hs *HealthzServer) shutdown() {
+func (hs *Server) shutdown() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	err := hs.httpServer.Shutdown(ctx)
@@ -69,7 +69,7 @@ func (hs *HealthzServer) shutdown() {
 	}
 }
 
-func (hs *HealthzServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (hs *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.URL.EscapedPath() == "/healthz" {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte("OK"))

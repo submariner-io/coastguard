@@ -136,7 +136,7 @@ func describeRemoteCluster() {
 			remoteCluster := New(clusterID1, fake.NewSimpleClientset())
 			defer remoteCluster.Stop()
 
-			var done chan bool = make(chan bool)
+			done := make(chan bool)
 
 			remoteCluster.Run(func(*RemoteCluster) {
 				done <- true
@@ -315,7 +315,7 @@ func createRemoteClusterWithObjects(eventChannel chan *Event, objects ...runtime
 	remoteCluster := New(clusterID1, clientSet)
 	remoteCluster.SetEventChannel(eventChannel)
 
-	var done chan bool = make(chan bool)
+	done := make(chan bool)
 
 	remoteCluster.Run(func(*RemoteCluster) {
 		done <- true
