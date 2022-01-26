@@ -51,7 +51,6 @@ type CoastguardController struct {
 }
 
 func New() *CoastguardController {
-
 	return &CoastguardController{
 		remoteClusters:           make(map[string]*remotecluster.RemoteCluster),
 		syncedClusters:           make(map[string]*remotecluster.RemoteCluster),
@@ -64,7 +63,6 @@ func New() *CoastguardController {
 }
 
 func (c *CoastguardController) Run(stopCh <-chan struct{}) {
-
 	go c.processLoop(stopCh)
 
 	healthzServer := healthz.New(":8080")
@@ -84,7 +82,6 @@ func (c *CoastguardController) Run(stopCh <-chan struct{}) {
 }
 
 func (c *CoastguardController) AllClustersSynced() bool {
-
 	c.processingMutex.Lock()
 	defer c.processingMutex.Unlock()
 

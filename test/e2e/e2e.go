@@ -46,7 +46,6 @@ var _ = ginkgo.SynchronizedBeforeSuite(func() []byte {
 	// framework.WaitForUnmanagedClusterReadiness()
 
 	return nil
-
 }, func(data []byte) {
 	// Run on all Ginkgo nodes
 })

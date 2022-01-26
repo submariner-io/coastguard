@@ -29,14 +29,15 @@ import (
 	"k8s.io/klog"
 )
 
-var kubeConfig string
-var masterURL string
+var (
+	kubeConfig string
+	masterURL  string
+)
 
 func init() {
 	flag.StringVar(&kubeConfig, "kubeconfig", os.Getenv("KUBECONFIG"),
 		"Path to kubeconfig containing embedded authinfo.")
 	flag.StringVar(&masterURL, "master", "", "The address of the Kubernetes API server. Overrides any value in kubeconfig. Only required if out-of-cluster.")
-
 }
 
 func main() {
@@ -57,7 +58,6 @@ func main() {
 
 	federator := buildKubeFedFederator(stopCh)
 	err := federator.WatchClusters(coastGuardController)
-
 	if err != nil {
 		klog.Fatalf("Error watching federation clusters: %s", err.Error())
 	}

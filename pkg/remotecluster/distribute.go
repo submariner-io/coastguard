@@ -42,9 +42,7 @@ func (r *RemoteCluster) Distribute(np *v1net.NetworkPolicy) error {
 }
 
 func (r *RemoteCluster) Delete(np *v1net.NetworkPolicy) error {
-
 	npClient := r.ClientSet.NetworkingV1().NetworkPolicies(np.Namespace)
 	klog.Infof("deleting NetworkPolicy %s from cluster %s", np.Name, r.ClusterID)
 	return npClient.Delete(np.Name, &v1.DeleteOptions{})
-
 }

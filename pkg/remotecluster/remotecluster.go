@@ -79,7 +79,6 @@ func (ev *Event) ToUpdatedFrom(oldObj interface{}) *Event {
 }
 
 func (ev *Event) ToAdded() *Event {
-
 	if ev.Type == UpdateEvent {
 		ev.Objs = []interface{}{ev.Objs[1]}
 		ev.Type = AddEvent
@@ -90,7 +89,6 @@ func (ev *Event) ToAdded() *Event {
 }
 
 func New(clusterID string, clientSet kubernetes.Interface) *RemoteCluster {
-
 	factory := informers.NewSharedInformerFactory(clientSet, defaultResyncTime)
 	podInformer := factory.Core().V1().Pods().Informer()
 	networkPolicyInformer := factory.Networking().V1().NetworkPolicies().Informer()
@@ -177,7 +175,6 @@ func (rc *RemoteCluster) OnUpdate(oldObj, newObj interface{}) {
 }
 
 func (rc *RemoteCluster) enqueueEvent(event *Event) {
-
 	if event == nil {
 		return
 	}
@@ -189,11 +186,9 @@ func (rc *RemoteCluster) enqueueEvent(event *Event) {
 	if rc.eventChan != nil {
 		rc.eventChan <- event
 	}
-
 }
 
 func (rc *RemoteCluster) NewAddEvent(objInterface interface{}) *Event {
-
 	event := Event{
 		Cluster: rc,
 		Type:    AddEvent,
@@ -204,7 +199,6 @@ func (rc *RemoteCluster) NewAddEvent(objInterface interface{}) *Event {
 }
 
 func (rc *RemoteCluster) NewUpdateEvent(objInterface, newObjInterface interface{}) *Event {
-
 	event := Event{
 		Cluster: rc,
 		Type:    UpdateEvent,
@@ -214,7 +208,6 @@ func (rc *RemoteCluster) NewUpdateEvent(objInterface, newObjInterface interface{
 }
 
 func (rc *RemoteCluster) NewDeleteEvent(objInterface interface{}) *Event {
-
 	event := Event{
 		Cluster: rc,
 		Type:    DeleteEvent,

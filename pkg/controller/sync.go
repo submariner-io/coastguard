@@ -30,7 +30,6 @@ import (
 const policySyncPeriod = 5 * time.Second
 
 func (c *CoastguardController) onClusterFinishedSyncing(cluster *remotecluster.RemoteCluster) {
-
 	c.processingMutex.Lock()
 	defer c.processingMutex.Unlock()
 
@@ -39,7 +38,6 @@ func (c *CoastguardController) onClusterFinishedSyncing(cluster *remotecluster.R
 }
 
 func (c *CoastguardController) processLoop(stopCh <-chan struct{}) {
-
 	policySyncTicker := time.NewTicker(policySyncPeriod)
 
 	for {
@@ -56,7 +54,6 @@ func (c *CoastguardController) processLoop(stopCh <-chan struct{}) {
 }
 
 func (c *CoastguardController) processEvent(event *remotecluster.Event) {
-
 	if event == nil {
 		klog.Error("processEvent received nil remotecluster.Event")
 		return
@@ -92,7 +89,6 @@ func (c *CoastguardController) processOriginalNetworkPolicyEvent(event *remotecl
 }
 
 func (c *CoastguardController) processPodEvent(event *remotecluster.Event) {
-
 	switch event.Type {
 	case remotecluster.AddEvent:
 		c.addedPod(event)
@@ -104,7 +100,6 @@ func (c *CoastguardController) processPodEvent(event *remotecluster.Event) {
 }
 
 func (c *CoastguardController) addedRemoteNetworkPolicy(event *remotecluster.Event) {
-
 	if rnp, exists := c.remoteNetworkPolicies[event.ObjID]; !exists {
 		np := event.Objs[0].(*v1net.NetworkPolicy)
 		c.remoteNetworkPolicies[event.ObjID] = networkpolicy.NewRemoteNetworkPolicy(np, event.Cluster, event.ObjID, c.remotePods)
@@ -114,7 +109,6 @@ func (c *CoastguardController) addedRemoteNetworkPolicy(event *remotecluster.Eve
 }
 
 func (c *CoastguardController) updateRemoteNetworkPolicy(event *remotecluster.Event) {
-
 	if _, exists := c.remoteNetworkPolicies[event.ObjID]; exists {
 		np := event.Objs[1].(*v1net.NetworkPolicy)
 		rnp := networkpolicy.NewRemoteNetworkPolicy(np, event.Cluster, event.ObjID, c.remotePods)
@@ -125,12 +119,10 @@ func (c *CoastguardController) updateRemoteNetworkPolicy(event *remotecluster.Ev
 }
 
 func (c *CoastguardController) deleteRemoteNetworkPolicy(event *remotecluster.Event) {
-
 	if _, exists := c.remoteNetworkPolicies[event.ObjID]; exists {
 		delete(c.remoteNetworkPolicies, event.ObjID)
 	} else {
 		klog.Warningf("A deleteNetworkPolicy event was received for a np not in our cache: %s", event.ObjID)
-
 	}
 }
 
@@ -161,7 +153,6 @@ func (c *CoastguardController) updatePod(event *remotecluster.Event) {
 }
 
 func (c *CoastguardController) deletePod(event *remotecluster.Event) {
-
 	if _, exists := c.remotePods[event.ObjID]; exists {
 		for _, np := range c.remoteNetworkPolicies {
 			np.DeletedPod(event)

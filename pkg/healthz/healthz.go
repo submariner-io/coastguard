@@ -40,7 +40,6 @@ func New(address string) *Server {
 }
 
 func (hs *Server) Run(stop <-chan struct{}) {
-
 	listenAndServeFailed := make(chan struct{})
 
 	go func() {
@@ -76,5 +75,4 @@ func (hs *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	} else {
 		w.WriteHeader(http.StatusNotFound)
 	}
-
 }

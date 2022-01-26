@@ -23,7 +23,6 @@ import (
 
 var _ = PDescribe("[Ctlplane] Removing policies related to removed cluster", func() {
 	PIt("Should remove policies relevant to removed cluster", func() {
-
 		By("creating listener pod 1 with label 1 in cluster 1 in namespace 1")
 		By("creating listener pod 2 with label 2 in cluster 2 in namespace 1")
 		By("Registering cluster 3 to kubefed")

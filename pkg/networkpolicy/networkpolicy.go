@@ -78,7 +78,6 @@ func NewRemoteNetworkPolicy(np *v1net.NetworkPolicy, remoteCluster *remotecluste
 }
 
 func (rnp *RemoteNetworkPolicy) AddedPod(event *remotecluster.Event) {
-
 	pod := event.Objs[0].(*v1.Pod)
 	remotePod := NewRemotePod(pod, event.Cluster, event.ObjID)
 	rnp.processAddedPod(remotePod)
@@ -97,7 +96,6 @@ func (rnp *RemoteNetworkPolicy) processAddedPod(remotePod *RemotePod) {
 }
 
 func (rnp *RemoteNetworkPolicy) UpdatedPod(event *remotecluster.Event) {
-
 	if remotePod, exists := rnp.remotePods[event.ObjID]; exists {
 		newPod := event.Objs[1].(*v1.Pod)
 		if !reflect.DeepEqual(remotePod.Pod.ObjectMeta.Labels, newPod.ObjectMeta.Labels) {
@@ -116,7 +114,6 @@ func (rnp *RemoteNetworkPolicy) UpdatedPod(event *remotecluster.Event) {
 }
 
 func (rnp *RemoteNetworkPolicy) DeletedPod(event *remotecluster.Event) {
-
 	if remotePod, exists := rnp.remotePods[event.ObjID]; exists {
 		rnp.removeRemotePod(remotePod)
 	} else {
@@ -126,7 +123,6 @@ func (rnp *RemoteNetworkPolicy) DeletedPod(event *remotecluster.Event) {
 
 // selectsPod returs true or false, based on the network policy ingress selectors.
 func (rnp *RemoteNetworkPolicy) ingressSelectsPod(pod *v1.Pod, remoteCluster *remotecluster.RemoteCluster) bool {
-
 	// never select pods from it's own cluster, it's not our business
 	if rnp.Cluster.ClusterID == remoteCluster.ClusterID {
 		return false
@@ -149,7 +145,7 @@ func (rnp *RemoteNetworkPolicy) ingressRuleSelectsPod(rule *v1net.NetworkPolicyI
 			if len(peer.NamespaceSelector.MatchLabels) == 0 && len(peer.NamespaceSelector.MatchExpressions) == 0 {
 				return true
 			}
-			//TODO: Implement namespace selector
+			// TODO: Implement namespace selector
 			klog.Error("Namespace selector still not fully handled")
 		} else if peer.NamespaceSelector != nil && peer.PodSelector != nil {
 			// TODO: Implement namespace and Pod selector combination
@@ -209,7 +205,6 @@ func OriginatingObjID(np *v1net.NetworkPolicy) string {
 }
 
 func (rnp *RemoteNetworkPolicy) updateGeneratedPolicy() {
-
 	if len(rnp.remotePods) == 0 {
 		rnp.GeneratedPolicy = nil
 	} else {
@@ -261,13 +256,11 @@ func (rnp *RemoteNetworkPolicy) generateCIDRIngressRules(ingressRules []v1net.Ne
 }
 
 func (rnp *RemoteNetworkPolicy) buildPodPeersForIngressRule(rule *v1net.NetworkPolicyIngressRule) []v1net.NetworkPolicyPeer {
-
 	peers := []v1net.NetworkPolicyPeer{}
 
 	for _, rp := range rnp.remotePods {
-
 		if rnp.ingressRuleSelectsPod(rule, rp.Pod) && rp.Pod.Status.PodIP != "" {
-			//NOTE: this can be optimized in a future by aggregatting multiple pods over CIDRs
+			// NOTE: this can be optimized in a future by aggregatting multiple pods over CIDRs
 			podCIDR := rp.Pod.Status.PodIP + "/32"
 			peers = append(peers, v1net.NetworkPolicyPeer{IPBlock: &v1net.IPBlock{CIDR: podCIDR}})
 		}
@@ -284,7 +277,6 @@ func (rnp *RemoteNetworkPolicy) GeneratedPolicyName() string {
 }
 
 func ArePolicyRulesDifferent(actualNp, expectedNp *v1net.NetworkPolicy) bool {
-
 	if !reflect.DeepEqual(actualNp.Spec.PodSelector, expectedNp.Spec.PodSelector) {
 		return true
 	}

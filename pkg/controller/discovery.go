@@ -46,13 +46,11 @@ func (c *CoastguardController) addCluster(clusterID string, clientSet kubernetes
 }
 
 func (c *CoastguardController) OnUpdate(clusterID string, kubeConfig *rest.Config) {
-
 	klog.Infof("updating cluster: %s", clusterID)
 	klog.Fatalf("Not implemented yet")
 }
 
 func (c *CoastguardController) OnRemove(clusterID string) {
-
 	klog.Infof("removing cluster: %s", clusterID)
 	klog.Fatalf("Not implemented yet")
 }

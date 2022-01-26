@@ -45,7 +45,6 @@ var _ = Describe("Coastguard Controller", func() {
 	})
 
 	Context("Discovery of clusters", func() {
-
 		It("Should add the cluster to the remoteClusters list", func() {
 			clientSet := fake.NewSimpleClientset()
 			cgController.addCluster(clusterID1, clientSet)
@@ -60,7 +59,6 @@ var _ = Describe("Coastguard Controller", func() {
 	})
 
 	Context("Controller and remoteCluster interactions", func() {
-
 		BeforeEach(func() {
 			clientSet := fake.NewSimpleClientset()
 			cgController.addCluster(clusterID1, clientSet)
@@ -78,7 +76,6 @@ var _ = Describe("Coastguard Controller", func() {
 			Expect(cgController.clusterEvents).Should(Receive(&event))
 			Expect(event.Type).Should(Equal(remotecluster.AddEvent))
 			Expect(event.ObjType).Should(Equal(remotecluster.Pod))
-
 		})
 
 		It("Should not stop remoteClusters while running", func() {
