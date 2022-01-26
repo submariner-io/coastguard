@@ -22,13 +22,11 @@ import (
 	"os"
 
 	"github.com/submariner-io/admiral/pkg/federate"
+	"github.com/submariner-io/admiral/pkg/federate/kubefed"
+	"github.com/submariner-io/coastguard/pkg/controller"
 	"github.com/submariner-io/submariner/pkg/signals"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/klog"
-
-	"github.com/submariner-io/admiral/pkg/federate/kubefed"
-
-	"github.com/submariner-io/coastguard/pkg/controller"
 )
 
 var kubeConfig string

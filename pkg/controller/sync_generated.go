@@ -18,11 +18,10 @@ limitations under the License.
 package controller
 
 import (
-	v1net "k8s.io/api/networking/v1"
-	"k8s.io/klog"
-
 	"github.com/submariner-io/coastguard/pkg/networkpolicy"
 	"github.com/submariner-io/coastguard/pkg/remotecluster"
+	v1net "k8s.io/api/networking/v1"
+	"k8s.io/klog"
 )
 
 // RemoteGeneratedNetworkPolicy represents a policy that we generated and sent
