@@ -124,7 +124,7 @@ func (rnp *RemoteNetworkPolicy) DeletedPod(event *remotecluster.Event) {
 	}
 }
 
-// selectsPod returs true or false, based on the network policy ingress selectors
+// selectsPod returs true or false, based on the network policy ingress selectors.
 func (rnp *RemoteNetworkPolicy) ingressSelectsPod(pod *v1.Pod, remoteCluster *remotecluster.RemoteCluster) bool {
 
 	// never select pods from it's own cluster, it's not our business
@@ -175,31 +175,28 @@ func (rnp *RemoteNetworkPolicy) matchesPodSelector(podSelector *metav1.LabelSele
 	return false
 }
 
-// removeRemotePod
 func (rnp *RemoteNetworkPolicy) removeRemotePod(remotePod *RemotePod) {
 	delete(rnp.remotePods, remotePod.ObjID)
 	rnp.updateGeneratedPolicy()
 }
 
-// addRemotePod
 func (rnp *RemoteNetworkPolicy) addRemotePod(remotePod *RemotePod) {
 	rnp.remotePods[remotePod.ObjID] = remotePod
 	rnp.updateGeneratedPolicy()
 }
 
-// updateRemotePod
 func (rnp *RemoteNetworkPolicy) updatedRemotePod(remotePod *RemotePod) {
 	rnp.remotePods[remotePod.ObjID] = remotePod
 	rnp.updateGeneratedPolicy()
 }
 
-// The originating network policy ID
+// The originating network policy ID.
 const coastGuardUIDLabel = "submariner-io/coastguard-Np-uid"
 
-// The name of the originating NetworkPolicy
+// The name of the originating NetworkPolicy.
 const coastGuardNameLabel = "submariner-io/coastguard-Np"
 
-// The name internal coastguard ID for the originating policy ID
+// The name internal coastguard ID for the originating policy ID.
 const coastGuardObjID = "submariner-io/coastguard-objid"
 
 func IsGenerated(np *v1net.NetworkPolicy) bool {

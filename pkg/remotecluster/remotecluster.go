@@ -115,7 +115,7 @@ func (rc *RemoteCluster) HasSynced() bool {
 		rc.networkPolicyInformer.HasSynced()
 }
 
-// Stop will stop the running informers
+// Stop will stop the running informers.
 func (rc *RemoteCluster) Stop() {
 	close(rc.stopCh)
 }

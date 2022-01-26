@@ -26,7 +26,7 @@ import (
 	"k8s.io/klog"
 )
 
-// arbitrary event channel size
+// arbitrary event channel size.
 const eventChannelSize = 1000
 
 type CoastguardController struct {
