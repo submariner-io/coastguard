@@ -75,6 +75,7 @@ func (ev *Event) ToUpdatedFrom(oldObj interface{}) *Event {
 	} else {
 		klog.Fatal("only AddEvents can be converted to UpdateEvents")
 	}
+
 	return ev
 }
 
@@ -85,6 +86,7 @@ func (ev *Event) ToAdded() *Event {
 	} else {
 		klog.Fatal("only UpdateEvents can be converted to AddEvents")
 	}
+
 	return ev
 }
 
@@ -183,6 +185,7 @@ func (rc *RemoteCluster) enqueueEvent(event *Event) {
 	// is synchronized between threads
 	rc.eventChanMutex.Lock()
 	defer rc.eventChanMutex.Unlock()
+
 	if rc.eventChan != nil {
 		rc.eventChan <- event
 	}
@@ -204,6 +207,7 @@ func (rc *RemoteCluster) NewUpdateEvent(objInterface, newObjInterface interface{
 		Type:    UpdateEvent,
 		Objs:    []interface{}{objInterface, newObjInterface},
 	}
+
 	return rc.extractEventDetails(newObjInterface, &event)
 }
 
@@ -213,6 +217,7 @@ func (rc *RemoteCluster) NewDeleteEvent(objInterface interface{}) *Event {
 		Type:    DeleteEvent,
 		Objs:    []interface{}{objInterface},
 	}
+
 	return rc.extractEventDetails(objInterface, &event)
 }
 
@@ -230,6 +235,7 @@ func (rc *RemoteCluster) extractEventDetails(objInterface interface{}, event *Ev
 		klog.Errorf("%s for unexpected type object: %v", event.Type, objInterface)
 		return nil
 	}
+
 	return event
 }
 

@@ -52,14 +52,13 @@ func main() {
 	runStoppedCh := make(chan struct{})
 
 	coastGuardController := controller.New()
+
 	go func() {
 		defer close(runStoppedCh)
 		coastGuardController.Run(stopCh)
 	}()
 
-	federator := buildKubeFedFederator(stopCh)
-	err := federator.WatchClusters(coastGuardController)
-	if err != nil {
+	if err := buildKubeFedFederator(stopCh).WatchClusters(coastGuardController); err != nil {
 		klog.Fatalf("Error watching federation clusters: %s", err.Error())
 	}
 
@@ -72,9 +71,11 @@ func buildKubeFedFederator(stopCh <-chan struct{}) federate.Federator {
 	if err != nil {
 		klog.Fatalf("Error attempting to load kubeconfig: %s", err.Error())
 	}
+
 	federator, err := kubefed.New(kubeConfig, stopCh)
 	if err != nil {
 		klog.Fatalf("Error creating kubefed federator: %s", err.Error())
 	}
+
 	return federator
 }

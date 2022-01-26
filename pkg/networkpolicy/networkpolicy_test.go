@@ -201,11 +201,13 @@ func describeRuleMatching() {
 
 func collectPodIPs(clusterPods [][]*v1.Pod) []string {
 	ips := []string{}
+
 	for _, pods := range clusterPods {
 		for _, pod := range pods {
 			ips = append(ips, pod.Status.PodIP)
 		}
 	}
+
 	return ips
 }
 
@@ -309,6 +311,7 @@ func createRemotePolicyAndCluster(selectedPods, ingressPods, namespace,
 	np := createPodSelectorNetworkPolicy(selectedPods, ingressPods, namespace)
 	rc1 := remotecluster.New(clusterID, fake.NewSimpleClientset())
 	rp := NewRemoteNetworkPolicy(np, rc1, remotecluster.ObjID(np.Namespace, np.Name, rc1.ClusterID, np.UID), nil)
+
 	return rp, rc1
 }
 
@@ -389,6 +392,7 @@ func createEmptyNamespaceSelector(appliedPods string, namespace string) *network
 func CheckCIDRs(peers []networkingv1.NetworkPolicyPeer, ips []string) {
 	cidrs := getCIDRsFromPeers(peers)
 	Expect(cidrs).To(HaveLen(len(ips)))
+
 	for _, ip := range ips {
 		ipCidr := fmt.Sprintf("%s/32", ip)
 		Expect(cidrs).To(ContainElement(ipCidr))
@@ -402,9 +406,9 @@ func createTestPodMatrix(clusters []*remotecluster.RemoteCluster) [][]*v1.Pod {
 
 	for clusterIdx := range clusters {
 		podIdx := 1
+
 		for namespaceIdx := 1; namespaceIdx <= testPodNamespaces; namespaceIdx++ {
 			for labelIdx, label := range labels {
-
 				namespace := fmt.Sprintf("namespace%d", namespaceIdx)
 
 				pod := newPod(testPodName(clusterIdx+1, podIdx, label, namespaceIdx),
@@ -416,6 +420,7 @@ func createTestPodMatrix(clusters []*remotecluster.RemoteCluster) [][]*v1.Pod {
 			}
 		}
 	}
+
 	return clusterPods
 }
 
@@ -425,6 +430,7 @@ func getCIDRsFromPeers(peers []networkingv1.NetworkPolicyPeer) []string {
 	for _, peer := range peers {
 		cidrs = append(cidrs, peer.IPBlock.CIDR)
 	}
+
 	return cidrs
 }
 

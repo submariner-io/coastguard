@@ -64,12 +64,14 @@ func (c *CoastguardController) processPoliciesNeedingDelete() {
 		if rnp.GeneratedPolicy != nil {
 			continue
 		}
+
 		if rgp, exists := c.remoteGenNetworkPolicies[objID]; exists {
 			if err := rnp.Cluster.Delete(rgp.np); err != nil {
 				klog.Errorf("There was an error deleting a NetworkPolicy %s", err)
 			}
 		}
 	}
+
 	for objID, rgnp := range c.remoteGenNetworkPolicies {
 		if _, exists := c.remoteNetworkPolicies[objID]; !exists {
 			if err := rgnp.cluster.Delete(rgnp.np); err != nil {
@@ -96,6 +98,7 @@ func (c *CoastguardController) processGeneratedNetworkPolicyEvent(event *remotec
 func (c *CoastguardController) addedGeneratedNetworkPolicy(event *remotecluster.Event) {
 	np := event.Objs[0].(*v1net.NetworkPolicy)
 	origObjID := networkpolicy.OriginatingObjID(np)
+
 	if existingNp, exists := c.remoteGenNetworkPolicies[origObjID]; !exists {
 		c.remoteGenNetworkPolicies[origObjID] = &remoteGeneratedNetworkPolicy{cluster: event.Cluster, np: np}
 	} else {
