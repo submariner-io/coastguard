@@ -27,7 +27,6 @@ import (
 	"github.com/onsi/ginkgo/config"
 	"github.com/onsi/ginkgo/reporters"
 	"github.com/onsi/gomega"
-
 	"github.com/submariner-io/submariner/test/e2e/framework"
 )
 

@@ -23,14 +23,13 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/submariner-io/coastguard/pkg/remotecluster"
 	v1 "k8s.io/api/core/v1"
 	networkingv1 "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/client-go/kubernetes/fake"
 	"k8s.io/klog"
-
-	"github.com/submariner-io/coastguard/pkg/remotecluster"
 )
 
 var _ = Describe("RemoteNetworkPolicies", func() {

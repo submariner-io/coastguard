@@ -22,11 +22,10 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/submariner-io/coastguard/pkg/remotecluster"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes/fake"
 	"k8s.io/klog"
-
-	"github.com/submariner-io/coastguard/pkg/remotecluster"
 )
 
 var _ = Describe("Coastguard Controller", func() {

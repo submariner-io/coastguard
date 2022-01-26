@@ -20,11 +20,10 @@ package controller
 import (
 	"sync"
 
-	"k8s.io/klog"
-
 	"github.com/submariner-io/coastguard/pkg/healthz"
 	"github.com/submariner-io/coastguard/pkg/networkpolicy"
 	"github.com/submariner-io/coastguard/pkg/remotecluster"
+	"k8s.io/klog"
 )
 
 // arbitrary event channel size

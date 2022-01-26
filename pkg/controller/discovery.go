@@ -18,11 +18,10 @@ limitations under the License.
 package controller
 
 import (
+	"github.com/submariner-io/coastguard/pkg/remotecluster"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/klog"
-
-	"github.com/submariner-io/coastguard/pkg/remotecluster"
 )
 
 func (c *CoastguardController) OnAdd(clusterID string, kubeConfig *rest.Config) {
