@@ -40,7 +40,8 @@ var _ = PDescribe("[Dataplane] No network policy is implemented", func() {
 			By("creating listener pod 1 with label 1 in cluster1 in namespace 1")
 			By("creating connecting pod 2 with label 2 in cluster 2 in namespace 1")
 			By("testing connectivity between pods")
-			By("failing the tests if the connection between the pods is not established and logging that the tests failed becasue the network plugin used does not seem to implement metwork policies")
+			By("failing the tests if the connection between the pods is not established" +
+				" and logging that the tests failed becasue the network plugin used does not seem to implement metwork policies")
 		})
 	})
 })

@@ -304,7 +304,8 @@ func newDefaultRemotePolicyAndCluster() (*RemoteNetworkPolicy, *remotecluster.Re
 	return createRemotePolicyAndCluster(testAppliedPods, testSelectedPods, testNamespace, clusterID1)
 }
 
-func createRemotePolicyAndCluster(selectedPods, ingressPods, namespace, clusterID string) (*RemoteNetworkPolicy, *remotecluster.RemoteCluster) {
+func createRemotePolicyAndCluster(selectedPods, ingressPods, namespace,
+	clusterID string) (*RemoteNetworkPolicy, *remotecluster.RemoteCluster) {
 	np := createPodSelectorNetworkPolicy(selectedPods, ingressPods, namespace)
 	rc1 := remotecluster.New(clusterID, fake.NewSimpleClientset())
 	rp := NewRemoteNetworkPolicy(np, rc1, remotecluster.ObjID(np.Namespace, np.Name, rc1.ClusterID, np.UID), nil)
