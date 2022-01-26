@@ -105,7 +105,7 @@ linters:
     # - varnamelen # It doesn't seem necessary to enforce a minimum variable name length
     - wastedassign
     - whitespace
-    # - wrapcheck # TODO
+    - wrapcheck
     - wsl
 issues:
   exclude-rules:
