@@ -24,12 +24,12 @@ import (
 	"k8s.io/klog"
 )
 
-func (r *RemoteCluster) Distribute(np *v1net.NetworkPolicy) error {
-	npClient := r.ClientSet.NetworkingV1().NetworkPolicies(np.Namespace)
+func (rc *RemoteCluster) Distribute(np *v1net.NetworkPolicy) error {
+	npClient := rc.ClientSet.NetworkingV1().NetworkPolicies(np.Namespace)
 
 	_, err := npClient.Update(np)
 
-	klog.Infof("distributing NetworkPolicy %s to cluster %s", np.Name, r.ClusterID)
+	klog.Infof("distributing NetworkPolicy %s to cluster %s", np.Name, rc.ClusterID)
 
 	if err == nil {
 		return nil
@@ -41,8 +41,8 @@ func (r *RemoteCluster) Distribute(np *v1net.NetworkPolicy) error {
 	return err
 }
 
-func (r *RemoteCluster) Delete(np *v1net.NetworkPolicy) error {
-	npClient := r.ClientSet.NetworkingV1().NetworkPolicies(np.Namespace)
-	klog.Infof("deleting NetworkPolicy %s from cluster %s", np.Name, r.ClusterID)
+func (rc *RemoteCluster) Delete(np *v1net.NetworkPolicy) error {
+	npClient := rc.ClientSet.NetworkingV1().NetworkPolicies(np.Namespace)
+	klog.Infof("deleting NetworkPolicy %s from cluster %s", np.Name, rc.ClusterID)
 	return npClient.Delete(np.Name, &v1.DeleteOptions{})
 }
