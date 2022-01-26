@@ -94,7 +94,6 @@ func describeRuleMatching() {
 
 	When("Translating policies", func() {
 		It("Should copy the Port definitions", func() {
-
 			addAllPods(rnp, clusters, clusterPods)
 			Expect(rnp.GeneratedPolicy.Spec.Ingress).To(HaveLen(1))
 			ingressPolicy := rnp.GeneratedPolicy.Spec.Ingress[0]
@@ -105,7 +104,6 @@ func describeRuleMatching() {
 
 	When("Policies have one rule", func() {
 		It("Should convert ingress selectors to pod IPs", func() {
-
 			addAllPods(rnp, clusters, clusterPods)
 			Expect(rnp.GeneratedPolicy.Spec.Ingress).To(HaveLen(1))
 			ingressPolicy := rnp.GeneratedPolicy.Spec.Ingress[0]
@@ -153,7 +151,6 @@ func describeRuleMatching() {
 			Expect(rnp.GeneratedPolicy.Spec.Ingress).To(HaveLen(1))
 
 			CheckCIDRs(rnp.GeneratedPolicy.Spec.Ingress[0].From, []string{"2.1.1.1", "3.1.1.1"})
-
 		})
 	})
 
@@ -185,9 +182,11 @@ func describeRuleMatching() {
 	When("Ingress rules have namespaceSelectors to select all pods", func() {
 		It("Should generate a policy that includes ipBlocks for all pods in all the other clusters", func() {
 			By("Creating an ingress rule that selects all pods on all namespaces")
-			rnp.Np.Spec.Ingress = []networkingv1.NetworkPolicyIngressRule{{
-				From:  []networkingv1.NetworkPolicyPeer{{NamespaceSelector: &metav1.LabelSelector{MatchLabels: map[string]string{}}}},
-				Ports: []networkingv1.NetworkPolicyPort{{Port: &intstr.IntOrString{IntVal: testPort}}}},
+			rnp.Np.Spec.Ingress = []networkingv1.NetworkPolicyIngressRule{
+				{
+					From:  []networkingv1.NetworkPolicyPeer{{NamespaceSelector: &metav1.LabelSelector{MatchLabels: map[string]string{}}}},
+					Ports: []networkingv1.NetworkPolicyPort{{Port: &intstr.IntOrString{IntVal: testPort}}},
+				},
 			}
 			addAllPods(rnp, clusters, clusterPods)
 
@@ -236,7 +235,6 @@ func describeEventHandling() {
 			updatedPod := newPod(testPod1, testNamespace, testNonSelectedPods, testPodIP1)
 			rnp.UpdatedPod(cluster2.NewUpdateEvent(pod, updatedPod))
 			Expect(rnp.remotePods).ShouldNot(HaveKey(addEvent.ObjID))
-
 		})
 		When("Deleting pods previously selected by a policy", func() {
 			pod := newPod(testPod1, testNamespace, testSelectedPods, testPodIP1)
@@ -271,7 +269,6 @@ func describeEventHandling() {
 			rnp.AddedPod(addEvent)
 			rnp.AddedPod(addEvent)
 			Expect(rnp.remotePods).Should(HaveKey(addEvent.ObjID))
-
 		})
 		When("Updating a pod which didn't exist", func() {
 			pod := newPod(testPod1, testNamespace, testSelectedPods, testPodIP1)
@@ -398,7 +395,6 @@ func CheckCIDRs(peers []networkingv1.NetworkPolicyPeer, ips []string) {
 }
 
 func createTestPodMatrix(clusters []*remotecluster.RemoteCluster) [][]*v1.Pod {
-
 	clusterPods := make([][]*v1.Pod, len(clusters))
 
 	labels := []string{testSelectedPods, testNonSelectedPods, testOtherPods}

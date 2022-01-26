@@ -31,9 +31,11 @@ import (
 	"k8s.io/klog"
 )
 
-const clusterID1 = "test-cluster-1"
-const pod0 = "pod0"
-const np0 = "np0"
+const (
+	clusterID1 = "test-cluster-1"
+	pod0       = "pod0"
+	np0        = "np0"
+)
 
 var _ = Describe("Coastguard remotecluster", func() {
 	klog.InitFlags(nil)
@@ -41,11 +43,9 @@ var _ = Describe("Coastguard remotecluster", func() {
 	Describe("extractEventDetails", describeExtractEventDetails)
 	Describe("Event conversion", describeEventConversion)
 	Describe("RemoteCluster class", describeRemoteCluster)
-
 })
 
 func describeExtractEventDetails() {
-
 	var remoteCluster RemoteCluster
 
 	BeforeEach(func() {
@@ -92,7 +92,6 @@ func describeExtractEventDetails() {
 }
 
 func describeEventConversion() {
-
 	var remoteCluster RemoteCluster
 
 	BeforeEach(func() {
@@ -131,7 +130,6 @@ func describeRemoteCluster() {
 		eventChannel = make(chan *Event, 10)
 	})
 	Context("Synchronization", func() {
-
 		It("Should notify when cluster synchronization has finished", func() {
 			remoteCluster := New(clusterID1, fake.NewSimpleClientset())
 			defer remoteCluster.Stop()
@@ -156,7 +154,6 @@ func describeRemoteCluster() {
 	})
 	Context("Event handling", func() {
 		It("Should send events on discovered pods", func() {
-
 			remoteCluster, _ := createRemoteClusterWithPod(eventChannel)
 			defer remoteCluster.Stop()
 
@@ -167,11 +164,9 @@ func describeRemoteCluster() {
 			Expect(event.ObjType).Should(Equal(Pod))
 
 			Consistently(eventChannel).ShouldNot(Receive())
-
 		})
 
 		It("Should send events on discovered NetworkPolicies", func() {
-
 			remoteCluster, _ := createRemoteClusterWithNetworkPolicy(eventChannel)
 			defer remoteCluster.Stop()
 
@@ -182,7 +177,6 @@ func describeRemoteCluster() {
 			Expect(event.ObjType).Should(Equal(NetworkPolicy))
 
 			Consistently(eventChannel).ShouldNot(Receive())
-
 		})
 
 		It("Should discover newly created Pods", func() {
@@ -197,7 +191,6 @@ func describeRemoteCluster() {
 			Expect(event.Type).Should(Equal(AddEvent))
 			Expect(event.ObjType).Should(Equal(Pod))
 			Expect(event.Objs).Should(HaveLen(1))
-
 		})
 
 		It("Should discover newly created NetworkPolicies", func() {
@@ -212,7 +205,6 @@ func describeRemoteCluster() {
 			Expect(event.Type).Should(Equal(AddEvent))
 			Expect(event.ObjType).Should(Equal(NetworkPolicy))
 			Expect(event.Objs).Should(HaveLen(1))
-
 		})
 
 		It("Should discover Pods being deleted", func() {
@@ -270,7 +262,6 @@ func describeRemoteCluster() {
 			Eventually(eventChannel).Should(Receive(&event))
 			Expect(event.Type).Should(Equal(UpdateEvent))
 			Expect(event.Objs).Should(HaveLen(2))
-
 		})
 
 		It("It should discover NetworkPolicies being updated", func() {
@@ -290,7 +281,6 @@ func describeRemoteCluster() {
 			Eventually(eventChannel).Should(Receive(&event))
 			Expect(event.Type).Should(Equal(UpdateEvent))
 			Expect(event.Objs).Should(HaveLen(2))
-
 		})
 	})
 	Context("Finalization of the RemoteCluster watcher", func() {
@@ -330,7 +320,6 @@ func createRemoteClusterWithPod(eventChannel chan *Event) (*RemoteCluster, *v1.P
 
 	return createRemoteClusterWithObjects(eventChannel,
 		&v1.PodList{Items: []v1.Pod{*testPod}}), testPod
-
 }
 
 func createRemoteClusterWithNetworkPolicy(eventChannel chan *Event) (*RemoteCluster, *v1net.NetworkPolicy) {
@@ -338,17 +327,17 @@ func createRemoteClusterWithNetworkPolicy(eventChannel chan *Event) (*RemoteClus
 
 	return createRemoteClusterWithObjects(eventChannel,
 		&v1net.NetworkPolicyList{Items: []v1net.NetworkPolicy{*testNetworkPolicy}}), testNetworkPolicy
-
 }
 
-const testNamespace = "default"
-const testPodName = "pod1"
-const testPodNameOld = "pod1-old"
-const testNetworkPolicyName = "np1"
-const testUID = "ff3b5269-1201-4e2c-95f5-46fc69ff6c63"
+const (
+	testNamespace         = "default"
+	testPodName           = "pod1"
+	testPodNameOld        = "pod1-old"
+	testNetworkPolicyName = "np1"
+	testUID               = "ff3b5269-1201-4e2c-95f5-46fc69ff6c63"
+)
 
 func NewPod(name string) *v1.Pod {
-
 	pod := &v1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Namespace: testNamespace,

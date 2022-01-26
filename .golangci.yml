@@ -53,7 +53,7 @@ linters:
     - godot
     # - godox #  Let's not forbid inline TODOs, FIXMEs et al
     - gofmt
-    # - gofumpt # TODO
+    - gofumpt
     # - goheader # We do license header linting another way
     - goimports
     # - golint # Deprecated since v1.41.0

@@ -36,7 +36,6 @@ type remoteGeneratedNetworkPolicy struct {
 }
 
 func (c *CoastguardController) syncGeneratedPolicies() {
-
 	if !c.AllClustersSynced() {
 		klog.Info("Skipping generated policy sync until all clusters sync has finished")
 		return
@@ -48,7 +47,6 @@ func (c *CoastguardController) syncGeneratedPolicies() {
 
 func (c *CoastguardController) processPoliciesNeedingDistribution() {
 	for objID, rnp := range c.remoteNetworkPolicies {
-
 		if rnp.GeneratedPolicy != nil {
 			genPolicyReceived, exists := c.remoteGenNetworkPolicies[objID]
 			if !exists || networkpolicy.ArePolicyRulesDifferent(genPolicyReceived.np, rnp.GeneratedPolicy) {

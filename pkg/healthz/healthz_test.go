@@ -43,14 +43,11 @@ var _ = Describe("Coastguard Healthz server", func() {
 			Expect(finished).ShouldNot(Receive())
 			close(stopCh)
 			Eventually(finished).Should(Receive(Equal(true)))
-
 		})
 	})
 
 	Context("Response handler", func() {
-
 		It("It should respond to GET /healthz request", func() {
-
 			resp := runHealthzRequest("GET", "/healthz")
 
 			Expect(resp.Code).To(Equal(http.StatusOK))
@@ -63,7 +60,6 @@ var _ = Describe("Coastguard Healthz server", func() {
 			Expect(resp.Code).To(Equal(http.StatusNotFound))
 			Expect(resp.Body.String()).ToNot(Equal("OK"))
 		})
-
 	})
 })
 
