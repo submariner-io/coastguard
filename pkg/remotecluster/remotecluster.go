@@ -172,7 +172,7 @@ func (rc *RemoteCluster) OnDelete(obj interface{}) {
 	rc.enqueueEvent(rc.NewDeleteEvent(obj))
 }
 
-func (rc *RemoteCluster) OnUpdate(oldObj interface{}, newObj interface{}) {
+func (rc *RemoteCluster) OnUpdate(oldObj, newObj interface{}) {
 	rc.enqueueEvent(rc.NewUpdateEvent(oldObj, newObj))
 }
 

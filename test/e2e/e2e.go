@@ -44,7 +44,7 @@ var _ = ginkgo.SynchronizedBeforeSuite(func() []byte {
 
 	// Wait for readiness of registered clusters to ensure tests
 	// run against a healthy federation.
-	//framework.WaitForUnmanagedClusterReadiness()
+	// framework.WaitForUnmanagedClusterReadiness()
 
 	return nil
 
@@ -59,7 +59,7 @@ var _ = ginkgo.SynchronizedBeforeSuite(func() []byte {
 var _ = ginkgo.SynchronizedAfterSuite(func() {
 	// Run on all Ginkgo nodes
 
-	//framework.Logf("Running AfterSuite actions on all node")
+	// framework.Logf("Running AfterSuite actions on all node")
 	framework.RunCleanupActions()
 }, func() {
 	// Run only Ginkgo on node 1
@@ -78,7 +78,7 @@ func RunE2ETests(t *testing.T) {
 	reportDir := framework.TestContext.ReportDir
 	if reportDir != "" {
 		// Create the directory if it doesn't already exists
-		if err := os.MkdirAll(reportDir, 0755); err != nil {
+		if err := os.MkdirAll(reportDir, 0o0755); err != nil {
 			t.Fatalf("Failed creating jUnit report directory: %v", err)
 			return
 		}

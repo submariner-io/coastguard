@@ -40,7 +40,7 @@ var _ = Describe("RemoteNetworkPolicies", func() {
 	Describe("NetworkPolicy processing", describeRuleMatching)
 })
 
-func testPodName(clusterIndex int, podIdx int, label string, namespaceIndex int) string {
+func testPodName(clusterIndex, podIdx int, label string, namespaceIndex int) string {
 	return fmt.Sprintf("c%dpod%d-%s-namespace%d", clusterIndex, podIdx, label, namespaceIndex)
 }
 
@@ -59,10 +59,11 @@ func describeRuleMatching() {
 		var cluster1 *remotecluster.RemoteCluster
 
 		rnp, cluster1 = newDefaultRemotePolicyAndCluster()
-		clusters = nil
-		clusters = append(clusters, cluster1)
-		clusters = append(clusters, remotecluster.New(clusterID2, fake.NewSimpleClientset()))
-		clusters = append(clusters, remotecluster.New(clusterID3, fake.NewSimpleClientset()))
+		clusters = []*remotecluster.RemoteCluster{
+			cluster1,
+			remotecluster.New(clusterID2, fake.NewSimpleClientset()),
+			remotecluster.New(clusterID3, fake.NewSimpleClientset()),
+		}
 
 		// create pods: clusters * namespaces * labels pods
 		//
@@ -307,7 +308,7 @@ func newDefaultRemotePolicyAndCluster() (*RemoteNetworkPolicy, *remotecluster.Re
 	return createRemotePolicyAndCluster(testAppliedPods, testSelectedPods, testNamespace, clusterID1)
 }
 
-func createRemotePolicyAndCluster(selectedPods string, ingressPods string, namespace string, clusterID string) (*RemoteNetworkPolicy, *remotecluster.RemoteCluster) {
+func createRemotePolicyAndCluster(selectedPods, ingressPods, namespace, clusterID string) (*RemoteNetworkPolicy, *remotecluster.RemoteCluster) {
 	np := createPodSelectorNetworkPolicy(selectedPods, ingressPods, namespace)
 	rc1 := remotecluster.New(clusterID, fake.NewSimpleClientset())
 	rp := NewRemoteNetworkPolicy(np, rc1, remotecluster.ObjID(np.Namespace, np.Name, rc1.ClusterID, np.UID), nil)
@@ -331,7 +332,7 @@ const (
 	testPodNamespaces   = 3
 )
 
-func createPodSelectorNetworkPolicy(appliedPods string, selectedPods string, namespace string) *networkingv1.NetworkPolicy {
+func createPodSelectorNetworkPolicy(appliedPods, selectedPods, namespace string) *networkingv1.NetworkPolicy {
 	return &networkingv1.NetworkPolicy{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "test-policy",
@@ -439,7 +440,7 @@ func addAllPods(policy *RemoteNetworkPolicy, clusters []*remotecluster.RemoteClu
 	}
 }
 
-func newPod(name string, namespace string, podLabel string, ip string) *v1.Pod {
+func newPod(name, namespace, podLabel, ip string) *v1.Pod {
 	return &v1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Namespace: namespace,
