@@ -133,8 +133,8 @@ func (rnp *RemoteNetworkPolicy) ingressSelectsPod(pod *v1.Pod, remoteCluster *re
 		return false
 	}
 
-	for _, rule := range rnp.Np.Spec.Ingress {
-		if rnp.ingressRuleSelectsPod(&rule, pod) {
+	for i := range rnp.Np.Spec.Ingress {
+		if rnp.ingressRuleSelectsPod(&rnp.Np.Spec.Ingress[i], pod) {
 			return true
 		}
 	}
@@ -257,9 +257,9 @@ func (rnp *RemoteNetworkPolicy) updateGeneratedPolicy() {
 
 func (rnp *RemoteNetworkPolicy) generateCIDRIngressRules(ingressRules []v1net.NetworkPolicyIngressRule) []v1net.NetworkPolicyIngressRule {
 	newIngressRules := []v1net.NetworkPolicyIngressRule{}
-	for _, rule := range ingressRules {
-		newRule := rule.DeepCopy()
-		newRule.From = rnp.buildPodPeersForIngressRule(&rule)
+	for i := range ingressRules {
+		newRule := ingressRules[i].DeepCopy()
+		newRule.From = rnp.buildPodPeersForIngressRule(&ingressRules[i])
 		if len(newRule.From) > 0 {
 			newIngressRules = append(newIngressRules, *newRule)
 		}
