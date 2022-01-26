@@ -301,7 +301,9 @@ func describeRemoteCluster() {
 
 func createRemoteClusterWithObjects(eventChannel chan *Event, objects ...runtime.Object) *RemoteCluster {
 	clientSet := fake.NewSimpleClientset(objects...)
+
 	By("Creating a new remoteCluster with a clientset of one pod")
+
 	remoteCluster := New(clusterID1, clientSet)
 	remoteCluster.SetEventChannel(eventChannel)
 
@@ -312,6 +314,7 @@ func createRemoteClusterWithObjects(eventChannel chan *Event, objects ...runtime
 	})
 	// Wait for sync first
 	Eventually(done).Should(Receive(BeTrue()))
+
 	return remoteCluster
 }
 
@@ -365,6 +368,7 @@ func NewNetworkPolicy(name string) *v1net.NetworkPolicy {
 			UID:       testUID,
 		},
 	}
+
 	return np
 }
 

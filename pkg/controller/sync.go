@@ -60,6 +60,7 @@ func (c *CoastguardController) processEvent(event *remotecluster.Event) {
 	}
 
 	klog.Infof("%s\t%s\t%s", event.Type, event.ObjType, event.ObjID)
+
 	switch event.ObjType {
 	case remotecluster.NetworkPolicy:
 		c.processNetworkPolicyEvent(event)
@@ -143,6 +144,7 @@ func (c *CoastguardController) updatePod(event *remotecluster.Event) {
 	if _, exists := c.remotePods[event.ObjID]; exists {
 		pod := event.Objs[0].(*v1.Pod)
 		c.remotePods[event.ObjID] = networkpolicy.NewRemotePod(pod, event.Cluster, event.ObjID)
+
 		for _, np := range c.remoteNetworkPolicies {
 			np.UpdatedPod(event)
 		}
@@ -157,6 +159,7 @@ func (c *CoastguardController) deletePod(event *remotecluster.Event) {
 		for _, np := range c.remoteNetworkPolicies {
 			np.DeletedPod(event)
 		}
+
 		delete(c.remotePods, event.ObjID)
 	} else {
 		klog.Warningf("An deletePod event was received for a pod not in our cache: %s", event.ObjID)

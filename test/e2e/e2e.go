@@ -74,6 +74,7 @@ func RunE2ETests(t *testing.T) {
 	// Register the default reporter, and in addition setup the jUnit XML Reporter
 	reporterList := []ginkgo.Reporter{}
 	reportDir := framework.TestContext.ReportDir
+
 	if reportDir != "" {
 		// Create the directory if it doesn't already exists
 		if err := os.MkdirAll(reportDir, 0o0755); err != nil {
@@ -81,6 +82,7 @@ func RunE2ETests(t *testing.T) {
 			return
 		}
 	}
+
 	// Configure a junit reporter to write to the directory
 	junitFile := fmt.Sprintf("junit_%s_%02d.xml",
 		framework.TestContext.ReportPrefix,

@@ -68,6 +68,7 @@ func runHealthzRequest(method, target string) *httptest.ResponseRecorder {
 	resp := httptest.NewRecorder()
 	healthz := &Server{}
 	healthz.ServeHTTP(resp, req)
+
 	return resp
 }
 

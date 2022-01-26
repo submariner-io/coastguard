@@ -62,6 +62,7 @@ func (hs *Server) Run(stop <-chan struct{}) {
 func (hs *Server) shutdown() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
 	err := hs.httpServer.Shutdown(ctx)
 	if err != nil {
 		klog.Errorf("Error shutting down healthz server: %s", err.Error())
