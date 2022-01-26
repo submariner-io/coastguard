@@ -26,7 +26,7 @@ import (
 
 // RemoteGeneratedNetworkPolicy represents a policy that we generated and sent
 // to a remote cluster, that we received back via events. We used to track the
-// remote Cluster where it came from
+// remote Cluster where it came from.
 type remoteGeneratedNetworkPolicy struct {
 	// Cluster is the origin of the network policy
 	cluster *remotecluster.RemoteCluster
