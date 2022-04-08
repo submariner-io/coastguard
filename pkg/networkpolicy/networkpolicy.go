@@ -63,7 +63,8 @@ func NewRemotePod(pod *v1.Pod, remoteCluster *remotecluster.RemoteCluster, objID
 }
 
 func NewRemoteNetworkPolicy(np *v1net.NetworkPolicy, remoteCluster *remotecluster.RemoteCluster,
-	objID string, existingPods map[string]*RemotePod) *RemoteNetworkPolicy {
+	objID string, existingPods map[string]*RemotePod,
+) *RemoteNetworkPolicy {
 	rnp := &RemoteNetworkPolicy{
 		Cluster:    remoteCluster,
 		Np:         np,
