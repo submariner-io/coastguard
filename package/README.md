@@ -1,7 +1,7 @@
 # Building and testing
 
-[//]: <> This is a temporary README instructing how to test coastguard deployment manually.
-[//]: <> Changes will be made so that coastguard will be deployed in kind using e2e scripts.
+This is a temporary README instructing how to test coastguard deployment manually.
+Changes will be made so that coastguard will be deployed in kind using e2e scripts.
 
 This patch builds and packages coastguard locally. The built image then needs to be imported in cluster 1 of kind deployment.
 To do the same, follow below steps:
