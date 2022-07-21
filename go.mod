@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	github.com/onsi/ginkgo v1.16.5
-	github.com/onsi/gomega v1.19.0
+	github.com/onsi/gomega v1.20.0
 	github.com/pkg/errors v0.9.1
 	github.com/submariner-io/admiral v0.0.0-20190910105841-6188b5ef1d22
 	github.com/submariner-io/submariner v0.0.2-0.20190828132721-a11a9a84c90d
