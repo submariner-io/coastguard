@@ -3,6 +3,7 @@ module github.com/submariner-io/coastguard
 go 1.13
 
 require (
+	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.20.0
 	github.com/pkg/errors v0.9.1
