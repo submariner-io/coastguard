@@ -33,7 +33,7 @@ type Server struct {
 
 func New(address string) *Server {
 	healthServer := &Server{
-		httpServer: &http.Server{Addr: address},
+		httpServer: &http.Server{Addr: address, ReadHeaderTimeout: 60 * time.Second},
 	}
 	healthServer.httpServer.Handler = healthServer
 
