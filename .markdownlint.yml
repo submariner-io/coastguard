@@ -1,4 +1,0 @@
----
-# Set maximum line Length to 140c to match Go linting
-line-length:
-  line_length: 140
