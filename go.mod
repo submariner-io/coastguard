@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/onsi/ginkgo v1.16.5
-	github.com/onsi/gomega v1.24.0
+	github.com/onsi/gomega v1.24.1
 	github.com/pkg/errors v0.9.1
 	github.com/submariner-io/admiral v0.0.0-20190910105841-6188b5ef1d22
 	github.com/submariner-io/submariner v0.0.2-0.20190828132721-a11a9a84c90d
@@ -36,9 +36,9 @@ require (
 	github.com/peterbourgon/diskv v0.0.0-20170814173558-5f041e8faa00 // indirect
 	github.com/spf13/pflag v0.0.0-20180412120913-583c0c0531f0 // indirect
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
-	golang.org/x/net v0.1.0 // indirect
+	golang.org/x/net v0.2.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20170412232759-a6bd8cefa181 // indirect
-	golang.org/x/sys v0.1.0 // indirect
+	golang.org/x/sys v0.2.0 // indirect
 	golang.org/x/text v0.4.0 // indirect
 	golang.org/x/time v0.0.0-20161028155119-f51c12702a4d // indirect
 	google.golang.org/appengine v1.6.1 // indirect
