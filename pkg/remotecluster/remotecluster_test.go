@@ -21,7 +21,7 @@ package remotecluster
 import (
 	"testing"
 
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 	v1net "k8s.io/api/networking/v1"

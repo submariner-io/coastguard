@@ -22,7 +22,7 @@ import (
 	"fmt"
 	"testing"
 
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"github.com/submariner-io/coastguard/pkg/remotecluster"
 	v1 "k8s.io/api/core/v1"
@@ -223,15 +223,17 @@ func describeEventHandling() {
 		cluster2 = remotecluster.New(clusterID2, fake.NewSimpleClientset())
 	})
 
-	It("Should not keep a reference", func() {
-		When("Adding pods which are not selected by policy", func() {
+	When("Adding pods which are not selected by policy", func() {
+		It("Should not keep a reference", func() {
 			pod := newPod(testPod1, testNamespace, testNonSelectedPods, testPodIP1)
 			addEvent := cluster2.NewAddEvent(pod)
 			rnp.AddedPod(addEvent)
 			Expect(rnp.remotePods).ShouldNot(HaveKey(addEvent.ObjID))
 		})
+	})
 
-		When("Updating pods so they are not selected by policy", func() {
+	When("Updating pods so they are not selected by policy", func() {
+		It("Should not keep a reference", func() {
 			pod := newPod(testPod1, testNamespace, testSelectedPods, testPodIP1)
 			addEvent := cluster2.NewAddEvent(pod)
 			rnp.AddedPod(addEvent)
@@ -239,7 +241,9 @@ func describeEventHandling() {
 			rnp.UpdatedPod(cluster2.NewUpdateEvent(pod, updatedPod))
 			Expect(rnp.remotePods).ShouldNot(HaveKey(addEvent.ObjID))
 		})
-		When("Deleting pods previously selected by a policy", func() {
+	})
+	When("Deleting pods previously selected by a policy", func() {
+		It("Should not keep a reference", func() {
 			pod := newPod(testPod1, testNamespace, testSelectedPods, testPodIP1)
 			addEvent := cluster2.NewAddEvent(pod)
 			rnp.AddedPod(addEvent)
@@ -248,14 +252,16 @@ func describeEventHandling() {
 		})
 	})
 
-	It("Should keep a reference to pods which are selected by policy", func() {
-		When("Adding pods", func() {
+	When("Adding pods", func() {
+		It("Should keep a reference to pods which are selected by policy", func() {
 			pod := newPod(testPod1, testNamespace, testSelectedPods, testPodIP1)
 			addEvent := cluster2.NewAddEvent(pod)
 			rnp.AddedPod(addEvent)
 			Expect(rnp.remotePods).Should(HaveKey(addEvent.ObjID))
 		})
-		When("Updating pods so that they contain the selected labels", func() {
+	})
+	When("Updating pods so that they contain the selected labels", func() {
+		It("Should keep a reference to pods which are selected by policy", func() {
 			pod := newPod(testPod1, testNamespace, testNonSelectedPods, testPodIP1)
 			addEvent := cluster2.NewAddEvent(pod)
 			rnp.AddedPod(addEvent)
@@ -265,21 +271,27 @@ func describeEventHandling() {
 		})
 	})
 
-	It("Should not crash", func() {
-		When("Adding a pod twice", func() {
+	When("Adding a pod twice", func() {
+		It("Should not crash", func() {
 			pod := newPod(testPod1, testNamespace, testSelectedPods, testPodIP1)
 			addEvent := cluster2.NewAddEvent(pod)
 			rnp.AddedPod(addEvent)
 			rnp.AddedPod(addEvent)
 			Expect(rnp.remotePods).Should(HaveKey(addEvent.ObjID))
 		})
-		When("Updating a pod which didn't exist", func() {
+	})
+
+	When("Updating a pod which didn't exist", func() {
+		It("Should not crash", func() {
 			pod := newPod(testPod1, testNamespace, testSelectedPods, testPodIP1)
 			updateEvent := cluster2.NewUpdateEvent(pod, pod)
 			rnp.UpdatedPod(updateEvent)
 			Expect(rnp.remotePods).Should(HaveKey(updateEvent.ObjID))
 		})
-		When("Deleting a pod twice", func() {
+	})
+
+	When("Deleting a pod twice", func() {
+		It("Should not crash", func() {
 			pod := newPod(testPod1, testNamespace, testSelectedPods, testPodIP1)
 			addEvent := cluster2.NewAddEvent(pod)
 			rnp.AddedPod(addEvent)
@@ -287,7 +299,10 @@ func describeEventHandling() {
 			rnp.DeletedPod(cluster2.NewDeleteEvent(pod))
 			Expect(rnp.remotePods).ShouldNot(HaveKey(addEvent.ObjID))
 		})
-		When("Deleting a pod which we didn't track yet", func() {
+	})
+
+	When("Deleting a pod which we didn't track yet", func() {
+		It("Should not crash", func() {
 			pod := newPod(testPod1, testNamespace, testSelectedPods, testPodIP1)
 			deleteEvent := cluster2.NewDeleteEvent(pod)
 			rnp.DeletedPod(deleteEvent)

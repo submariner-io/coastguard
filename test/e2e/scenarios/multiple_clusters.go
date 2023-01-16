@@ -19,7 +19,7 @@ limitations under the License.
 package scenarios
 
 import (
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 )
 
 var _ = PDescribe("[Dataplane] Namespace selector based Network Policies for ingress between clusters, selecting multiple remote clusters",

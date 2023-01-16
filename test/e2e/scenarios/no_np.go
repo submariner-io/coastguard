@@ -22,7 +22,7 @@ limitations under the License.
 package scenarios
 
 import (
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 )
 
 var _ = PDescribe("[Dataplane] No network policy is implemented", func() {
