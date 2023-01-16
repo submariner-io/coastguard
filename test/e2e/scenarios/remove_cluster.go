@@ -19,7 +19,7 @@ limitations under the License.
 package scenarios
 
 import (
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 )
 
 var _ = PDescribe("[Ctlplane] Removing policies related to removed cluster", func() {
