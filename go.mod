@@ -3,8 +3,8 @@ module github.com/submariner-io/coastguard
 go 1.18
 
 require (
-	github.com/onsi/ginkgo/v2 v2.8.3
-	github.com/onsi/gomega v1.27.0
+	github.com/onsi/ginkgo/v2 v2.8.4
+	github.com/onsi/gomega v1.27.2
 	github.com/pkg/errors v0.9.1
 	github.com/submariner-io/admiral v0.0.0-20190910105841-6188b5ef1d22
 	github.com/submariner-io/submariner v0.0.2-0.20190828132721-a11a9a84c90d
