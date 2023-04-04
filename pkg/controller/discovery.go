@@ -46,7 +46,7 @@ func (c *CoastguardController) addCluster(clusterID string, clientSet kubernetes
 	rc.Run(c.onClusterFinishedSyncing)
 }
 
-func (c *CoastguardController) OnUpdate(clusterID string, kubeConfig *rest.Config) {
+func (c *CoastguardController) OnUpdate(clusterID string, _ *rest.Config) {
 	klog.Infof("updating cluster: %s", clusterID)
 	klog.Fatalf("Not implemented yet")
 }
