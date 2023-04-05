@@ -3,12 +3,14 @@ name: Linting
 
 on:
   pull_request:
+  merge_group:
 
 permissions: {}
 
 jobs:
   apply-suggestions-commits:
     name: 'No "Apply suggestions from code review" Commits'
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Get PR commits
