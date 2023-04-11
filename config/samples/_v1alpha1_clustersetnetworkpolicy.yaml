@@ -1,0 +1,12 @@
+apiVersion: submariner.io/v1alpha1
+kind: ClustersetNetworkPolicy
+metadata:
+  labels:
+    app.kubernetes.io/name: clustersetnetworkpolicy
+    app.kubernetes.io/instance: clustersetnetworkpolicy-sample
+    app.kubernetes.io/part-of: coastguard
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: coastguard
+  name: clustersetnetworkpolicy-sample
+spec:
+  # TODO(user): Add fields here
