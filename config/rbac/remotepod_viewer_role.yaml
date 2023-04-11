@@ -1,0 +1,27 @@
+# permissions for end users to view remotepods.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: remotepod-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: coastguard
+    app.kubernetes.io/part-of: coastguard
+    app.kubernetes.io/managed-by: kustomize
+  name: remotepod-viewer-role
+rules:
+- apiGroups:
+  - submariner.io
+  resources:
+  - remotepods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - submariner.io
+  resources:
+  - remotepods/status
+  verbs:
+  - get

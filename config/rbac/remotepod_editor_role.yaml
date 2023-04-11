@@ -1,0 +1,31 @@
+# permissions for end users to edit remotepods.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: remotepod-editor-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: coastguard
+    app.kubernetes.io/part-of: coastguard
+    app.kubernetes.io/managed-by: kustomize
+  name: remotepod-editor-role
+rules:
+- apiGroups:
+  - submariner.io
+  resources:
+  - remotepods
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - submariner.io
+  resources:
+  - remotepods/status
+  verbs:
+  - get

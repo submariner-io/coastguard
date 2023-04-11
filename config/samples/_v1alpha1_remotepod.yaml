@@ -1,0 +1,12 @@
+apiVersion: submariner.io/v1alpha1
+kind: RemotePod
+metadata:
+  labels:
+    app.kubernetes.io/name: remotepod
+    app.kubernetes.io/instance: remotepod-sample
+    app.kubernetes.io/part-of: coastguard
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: coastguard
+  name: remotepod-sample
+spec:
+  # TODO(user): Add fields here
