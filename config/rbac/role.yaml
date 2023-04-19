@@ -34,6 +34,32 @@ rules:
 - apiGroups:
   - submariner.io
   resources:
+  - remotenamespaces
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - submariner.io
+  resources:
+  - remotenamespaces/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - submariner.io
+  resources:
+  - remotenamespaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - submariner.io
+  resources:
   - remotepods
   verbs:
   - create

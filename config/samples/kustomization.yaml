@@ -2,4 +2,5 @@
 resources:
 - _v1alpha1_clustersetnetworkpolicy.yaml
 - _v1alpha1_remotepod.yaml
+- _v1alpha1_remotenamespace.yaml
 #+kubebuilder:scaffold:manifestskustomizesamples
