@@ -11,7 +11,7 @@ images: build
 UNIT_TEST_ARGS := test/e2e
 
 build: bin/coastguard-controller
-bin/coastguard-controller: vendor/modules.txt $(shell find pkg)
+bin/coastguard-controller: $(shell find pkg)
 	${SCRIPTS_DIR}/compile.sh $@ pkg/coastguard/main.go
 
 include $(SHIPYARD_DIR)/Makefile.inc
