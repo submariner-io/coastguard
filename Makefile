@@ -3,7 +3,27 @@ export BASE_BRANCH
 
 ifneq (,$(DAPPER_HOST_ARCH))
 
+CONTROLLER_GEN := $(CURDIR)/bin/controller-gen
+
 # Running in Dapper
+
+GO ?= go
+
+# Ensure we prefer binaries we build
+export PATH := $(CURDIR)/bin:$(PATH)
+
+# Targets to make
+
+# Download controller-gen locally if not already downloaded.
+$(CONTROLLER_GEN):
+	mkdir -p $(@D)
+	$(GO) build -o $@ sigs.k8s.io/controller-tools/cmd/controller-gen
+
+controller-gen: $(CONTROLLER_GEN)
+
+# Generate deep-copy code
+generate: controller-gen
+	$(CONTROLLER_GEN) object:headerFile="$(CURDIR)/hack/boilerplate.go.txt,year=$(shell date +"%Y")" paths="./..."
 
 IMAGES ?= coastguard
 images: build
