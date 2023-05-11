@@ -159,3 +159,8 @@ issues:
         - gochecknoinits
         - goerr113
         - wrapcheck
+
+    # Ignore contextcheck on main for now
+    - path: main.go
+      linters:
+        - contextcheck

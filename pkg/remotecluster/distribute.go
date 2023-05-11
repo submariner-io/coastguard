@@ -19,6 +19,8 @@ limitations under the License.
 package remotecluster
 
 import (
+	"context"
+
 	"github.com/pkg/errors"
 	v1net "k8s.io/api/networking/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -28,7 +30,7 @@ import (
 func (rc *RemoteCluster) Distribute(np *v1net.NetworkPolicy) error {
 	npClient := rc.ClientSet.NetworkingV1().NetworkPolicies(np.Namespace)
 
-	_, err := npClient.Update(np)
+	_, err := npClient.Update(context.TODO(), np, v1.UpdateOptions{})
 
 	if err == nil {
 		return nil
@@ -36,7 +38,7 @@ func (rc *RemoteCluster) Distribute(np *v1net.NetworkPolicy) error {
 		return errors.Wrapf(err, "error updating NetworkPolicy %s for cluster %s", np.Name, rc.ClusterID)
 	}
 
-	_, err = npClient.Create(np)
+	_, err = npClient.Create(context.TODO(), np, v1.CreateOptions{})
 
 	return errors.Wrapf(err, "error creating NetworkPolicy %s for cluster %s", np.Name, rc.ClusterID)
 }
@@ -44,6 +46,6 @@ func (rc *RemoteCluster) Distribute(np *v1net.NetworkPolicy) error {
 func (rc *RemoteCluster) Delete(np *v1net.NetworkPolicy) error {
 	npClient := rc.ClientSet.NetworkingV1().NetworkPolicies(np.Namespace)
 
-	return errors.Wrapf(npClient.Delete(np.Name, &v1.DeleteOptions{}),
+	return errors.Wrapf(npClient.Delete(context.TODO(), np.Name, v1.DeleteOptions{}),
 		"error deleting NetworkPolicy %s from cluster %s", np.Name, rc.ClusterID)
 }

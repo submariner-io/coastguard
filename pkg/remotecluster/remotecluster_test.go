@@ -19,6 +19,7 @@ limitations under the License.
 package remotecluster
 
 import (
+	"context"
 	"testing"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -183,7 +184,7 @@ func describeRemoteCluster() {
 		It("Should discover newly created Pods", func() {
 			remoteCluster := createRemoteClusterWithObjects(eventChannel)
 
-			_, err := remoteCluster.ClientSet.CoreV1().Pods("default").Create(NewPod("pod1"))
+			_, err := remoteCluster.ClientSet.CoreV1().Pods("default").Create(context.TODO(), NewPod("pod1"), metav1.CreateOptions{})
 			Expect(err).ShouldNot(HaveOccurred())
 
 			By("Waiting for the Pod AddEvent to be received")
@@ -197,7 +198,8 @@ func describeRemoteCluster() {
 		It("Should discover newly created NetworkPolicies", func() {
 			remoteCluster := createRemoteClusterWithObjects(eventChannel)
 
-			_, err := remoteCluster.ClientSet.NetworkingV1().NetworkPolicies("default").Create(NewNetworkPolicy(np0))
+			_, err := remoteCluster.ClientSet.NetworkingV1().NetworkPolicies("default").Create(
+				context.TODO(), NewNetworkPolicy(np0), metav1.CreateOptions{})
 			Expect(err).ShouldNot(HaveOccurred())
 
 			By("Waiting for the NetworkPolicy AddEvent to be received")
@@ -214,7 +216,7 @@ func describeRemoteCluster() {
 			cs := remoteCluster.ClientSet
 
 			By("Deleting the test pod")
-			err := cs.CoreV1().Pods("default").Delete(pod0, &metav1.DeleteOptions{})
+			err := cs.CoreV1().Pods("default").Delete(context.TODO(), pod0, metav1.DeleteOptions{})
 			Expect(err).ShouldNot(HaveOccurred())
 
 			By("Waiting for the Pod AddEvent, then DeleteEvent to be received")
@@ -233,7 +235,7 @@ func describeRemoteCluster() {
 			cs := remoteCluster.ClientSet
 
 			By("Deleting the test pod")
-			err := cs.NetworkingV1().NetworkPolicies("default").Delete(np0, &metav1.DeleteOptions{})
+			err := cs.NetworkingV1().NetworkPolicies("default").Delete(context.TODO(), np0, metav1.DeleteOptions{})
 			Expect(err).ShouldNot(HaveOccurred())
 
 			By("Waiting for the NetworkPolicy AddEvent, then DeleteEvent to be received")
@@ -253,7 +255,7 @@ func describeRemoteCluster() {
 
 			By("Updating the test pod label")
 			pod.SetLabels(map[string]string{"label-one": "1"})
-			_, err := cs.CoreV1().Pods("default").Update(pod)
+			_, err := cs.CoreV1().Pods("default").Update(context.TODO(), pod, metav1.UpdateOptions{})
 			Expect(err).ShouldNot(HaveOccurred())
 
 			By("Waiting for the Pod AddEvent, then UpdateEvent to be received")
@@ -272,7 +274,7 @@ func describeRemoteCluster() {
 
 			By("Updating the test NetworkPolicy label")
 			np.SetLabels(map[string]string{"label-one": "1"})
-			_, err := cs.NetworkingV1().NetworkPolicies("default").Update(np)
+			_, err := cs.NetworkingV1().NetworkPolicies("default").Update(context.TODO(), np, metav1.UpdateOptions{})
 			Expect(err).ShouldNot(HaveOccurred())
 
 			By("Waiting for the NetworkPolicy AddEvent, then UpdateEvent to be received")
