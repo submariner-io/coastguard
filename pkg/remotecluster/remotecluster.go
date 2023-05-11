@@ -105,8 +105,8 @@ func New(clusterID string, clientSet kubernetes.Interface) *RemoteCluster {
 		eventChanMutex:        &sync.Mutex{},
 	}
 
-	podInformer.AddEventHandler(resourceWatcher)
-	networkPolicyInformer.AddEventHandler(resourceWatcher)
+	_, _ = podInformer.AddEventHandler(resourceWatcher)
+	_, _ = networkPolicyInformer.AddEventHandler(resourceWatcher)
 
 	return resourceWatcher
 }

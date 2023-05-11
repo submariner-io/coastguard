@@ -22,12 +22,9 @@ import (
 	"flag"
 	"os"
 
-	"github.com/submariner-io/admiral/pkg/federate"
-	"github.com/submariner-io/admiral/pkg/federate/kubefed"
 	"github.com/submariner-io/coastguard/pkg/controller"
-	"github.com/submariner-io/submariner/pkg/signals"
-	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/klog"
+	"sigs.k8s.io/controller-runtime/pkg/manager/signals"
 )
 
 var (
@@ -49,34 +46,16 @@ func main() {
 	klog.V(2).Info("Starting coastguard-network-policy-sync")
 
 	// set up signals so we handle the first shutdown signal gracefully
-	stopCh := signals.SetupSignalHandler()
+	ctx := signals.SetupSignalHandler()
 	runStoppedCh := make(chan struct{})
 
 	coastGuardController := controller.New()
 
 	go func() {
 		defer close(runStoppedCh)
-		coastGuardController.Run(stopCh)
+		coastGuardController.Run(ctx.Done())
 	}()
-
-	if err := buildKubeFedFederator(stopCh).WatchClusters(coastGuardController); err != nil {
-		klog.Fatalf("Error watching federation clusters: %s", err.Error())
-	}
 
 	<-runStoppedCh
 	klog.Info("All controllers stopped or exited. Stopping main loop")
-}
-
-func buildKubeFedFederator(stopCh <-chan struct{}) federate.Federator {
-	kubeConfig, err := clientcmd.BuildConfigFromFlags(masterURL, kubeConfig)
-	if err != nil {
-		klog.Fatalf("Error attempting to load kubeconfig: %s", err.Error())
-	}
-
-	federator, err := kubefed.New(kubeConfig, stopCh)
-	if err != nil {
-		klog.Fatalf("Error creating kubefed federator: %s", err.Error())
-	}
-
-	return federator
 }
