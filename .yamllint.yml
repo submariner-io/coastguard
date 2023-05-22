@@ -10,5 +10,3 @@ rules:
 
 ignore: |
   /vendor
-  /scripts/shared/resources/cluster*-config.yaml
-  /scripts/shared/resources/prometheus/bundle.yaml

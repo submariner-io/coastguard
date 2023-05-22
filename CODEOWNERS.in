@@ -2,4 +2,4 @@
 @skitt *
 @sridhargaddam *
 @tpantelis *
-@mkolesnik /.github/workflows/ /scripts/ Makefile* Dockerfile.dapper package/
+@mkolesnik /.github/workflows/ Makefile* Dockerfile.dapper package/
