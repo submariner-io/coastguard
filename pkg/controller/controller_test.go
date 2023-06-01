@@ -72,7 +72,7 @@ var _ = Describe("Coastguard Controller", func() {
 			By("Simulating a ClusterFinishedSyncing event")
 			cgController.onClusterFinishedSyncing(remoteCluster)
 			pod := &v1.Pod{}
-			remoteCluster.OnAdd(pod)
+			remoteCluster.OnAdd(pod, false)
 			var event *remotecluster.Event
 			Expect(cgController.clusterEvents).Should(Receive(&event))
 			Expect(event.Type).Should(Equal(remotecluster.AddEvent))

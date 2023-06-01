@@ -165,7 +165,7 @@ func (rc *RemoteCluster) SetEventChannel(eventChan chan *Event) {
 	rc.eventChanMutex.Unlock()
 }
 
-func (rc *RemoteCluster) OnAdd(obj interface{}) {
+func (rc *RemoteCluster) OnAdd(obj interface{}, _ bool) {
 	rc.enqueueEvent(rc.NewAddEvent(obj))
 }
 
