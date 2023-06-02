@@ -16,14 +16,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package e2e
+package e2e_test
 
 import (
 	"testing"
 
+	"github.com/submariner-io/coastguard/test/e2e"
 	_ "github.com/submariner-io/coastguard/test/e2e/scenarios"
 )
 
 func TestE2E(t *testing.T) {
-	RunE2ETests(t)
+	e2e.RunE2ETests(t)
 }

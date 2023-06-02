@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package healthz
+package healthz_test
 
 import (
 	"net/http"
@@ -25,6 +25,7 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	"github.com/submariner-io/coastguard/pkg/healthz"
 	"k8s.io/klog/v2"
 )
 
@@ -33,7 +34,7 @@ var _ = Describe("Coastguard Healthz server", func() {
 
 	Context("Server", func() {
 		It("Should start and stop", func() {
-			healthz := New("127.0.0.1:8123")
+			healthz := healthz.New("127.0.0.1:8123")
 			stopCh := make(chan struct{})
 			finished := make(chan bool)
 			go func() {
@@ -67,8 +68,7 @@ var _ = Describe("Coastguard Healthz server", func() {
 func runHealthzRequest(method, target string) *httptest.ResponseRecorder {
 	req := httptest.NewRequest(method, target, nil)
 	resp := httptest.NewRecorder()
-	healthz := &Server{}
-	healthz.ServeHTTP(resp, req)
+	(&healthz.Server{}).ServeHTTP(resp, req)
 
 	return resp
 }
