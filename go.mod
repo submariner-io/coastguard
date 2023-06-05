@@ -55,5 +55,3 @@ require (
 	sigs.k8s.io/structured-merge-diff/v4 v4.2.3 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
-
-replace github.com/bronze1man/goStrongswanVici => github.com/bronze1man/goStrongswanVici v0.0.0-20190921045355-4c81bd8d0bd5
