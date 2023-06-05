@@ -6,13 +6,12 @@ ifneq (,$(DAPPER_HOST_ARCH))
 # Running in Dapper
 
 IMAGES ?= coastguard
-images: build
+MULTIARCH_IMAGES ?= $(IMAGES)
 
 UNIT_TEST_ARGS := test/e2e
 
-build: bin/coastguard-controller
-bin/coastguard-controller: $(shell find pkg)
-	${SCRIPTS_DIR}/compile.sh $@ pkg/coastguard/main.go
+bin/%/coastguard-controller: $(shell find pkg)
+	GOARCH=$(call dockertogoarch,$(patsubst bin/linux/%/,%,$(dir $@))) ${SCRIPTS_DIR}/compile.sh $@ pkg/coastguard/main.go
 
 include $(SHIPYARD_DIR)/Makefile.inc
 
