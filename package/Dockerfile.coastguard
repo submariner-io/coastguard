@@ -1,12 +1,18 @@
-FROM registry.access.redhat.com/ubi8/ubi-minimal
+ARG BASE_BRANCH
+ARG SOURCE=/go/src/github.com/submariner-io/coastguard
 
-WORKDIR /var/coastguard
+FROM --platform=${BUILDPLATFORM} quay.io/submariner/shipyard-dapper-base:${BASE_BRANCH} AS builder
+ARG SOURCE
+ARG TARGETPLATFORM
 
-COPY package/coastguard-controller.sh /usr/local/bin
+COPY . ${SOURCE}
 
-RUN chmod +x /usr/local/bin/coastguard-controller.sh
+RUN make -C ${SOURCE} LOCAL_BUILD=1 bin/${TARGETPLATFORM}/coastguard-controller
 
-COPY bin/coastguard-controller /usr/local/bin
+FROM --platform=${TARGETPLATFORM} scratch
+ARG SOURCE
+ARG TARGETPLATFORM
 
-# temporary sleep infinity so that we can do our debugging
-ENTRYPOINT coastguard-controller.sh
+COPY --from=builder ${SOURCE}/bin/${TARGETPLATFORM}/coastguard-controller /coastguard-controller
+
+ENTRYPOINT ["/coastguard-controller"]
