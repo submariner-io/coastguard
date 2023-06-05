@@ -22,7 +22,7 @@ import (
 	"github.com/submariner-io/coastguard/pkg/networkpolicy"
 	"github.com/submariner-io/coastguard/pkg/remotecluster"
 	v1net "k8s.io/api/networking/v1"
-	"k8s.io/klog"
+	"k8s.io/klog/v2"
 )
 
 // RemoteGeneratedNetworkPolicy represents a policy that we generated and sent

@@ -24,7 +24,7 @@ import (
 	"github.com/submariner-io/coastguard/pkg/healthz"
 	"github.com/submariner-io/coastguard/pkg/networkpolicy"
 	"github.com/submariner-io/coastguard/pkg/remotecluster"
-	"k8s.io/klog"
+	"k8s.io/klog/v2"
 )
 
 // arbitrary event channel size.
