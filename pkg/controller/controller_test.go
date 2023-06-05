@@ -26,7 +26,7 @@ import (
 	"github.com/submariner-io/coastguard/pkg/remotecluster"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes/fake"
-	"k8s.io/klog"
+	"k8s.io/klog/v2"
 )
 
 var _ = Describe("Coastguard Controller", func() {

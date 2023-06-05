@@ -22,7 +22,7 @@ import (
 	"github.com/submariner-io/coastguard/pkg/remotecluster"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
-	"k8s.io/klog"
+	"k8s.io/klog/v2"
 )
 
 func (c *CoastguardController) OnAdd(clusterID string, kubeConfig *rest.Config) {

@@ -23,7 +23,7 @@ import (
 	"os"
 
 	"github.com/submariner-io/coastguard/pkg/controller"
-	"k8s.io/klog"
+	"k8s.io/klog/v2"
 	"sigs.k8s.io/controller-runtime/pkg/manager/signals"
 )
 
