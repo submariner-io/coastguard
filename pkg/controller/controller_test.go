@@ -86,14 +86,14 @@ var _ = Describe("Coastguard Controller", func() {
 				// make sure the remote clusters declare themselves as started
 				// before we close the channel
 				for _, rc := range cgController.remoteClusters {
-					Eventually(rc.Stopped(), 5).Should(BeFalse())
+					Eventually(rc.Stopped, 5).Should(BeFalse())
 				}
 			}()
 
 			cgController.Run(stopChan)
 
 			for _, rc := range cgController.remoteClusters {
-				Eventually(rc.Stopped(), 5).Should(BeTrue())
+				Eventually(rc.Stopped, 5).Should(BeTrue())
 			}
 		})
 	})
