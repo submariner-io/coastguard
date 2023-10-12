@@ -3,7 +3,7 @@ module github.com/submariner-io/coastguard
 go 1.18
 
 require (
-	github.com/onsi/ginkgo/v2 v2.12.0
+	github.com/onsi/ginkgo/v2 v2.13.0
 	github.com/onsi/gomega v1.28.0
 	github.com/pkg/errors v0.9.1
 	k8s.io/api v0.28.2
